@@ -1,17 +1,19 @@
 // import java.util.Scanner
 
+// SCRATCHPAD FOR CODE SNIPPETS FROM edX "LEARN TO PROGRAM IN JAVA" COURSE
+
 public class ScratchPad {
 
     /*
-    ==================
-    Keyboard Shortcuts
-    ==================
+    ===================================
+    Keyboard Shortcuts in IntelliJ IDEA
+    ===================================
     sout + Tab
     Ctrl + /
     Ctrl + Shift + /
     Ctrl + D
     Ctrl + Shift + Backspace (navigate to last place(s) where you made changes in code)
-    ==================
+    ===================================
      */
 
     public static void main(String[] args) {
