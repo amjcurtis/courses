@@ -13,7 +13,6 @@ namespace linq_exercises
 			IEnumerable<Student> topStudentsInFirstTest =
 				from student in students
 				where student.Scores[0] > 90
-				orderby student.Last
 				select student;
 
 			foreach (Student student in topStudentsInFirstTest)
@@ -26,12 +25,28 @@ namespace linq_exercises
 			IEnumerable<Student> studentQuery2 =
 				from student in students
 				where student.Scores[0] > 90 && student.Scores[3] < 80
-				orderby student.Last descending
+				orderby student.Last
 				select student;
 
 			foreach (Student student in studentQuery2)
 			{
 				Console.WriteLine($"{student.Last}, {student.First}: {student.Scores[0]}, {student.Scores[3]}");
+			}
+
+			// QUERY #3
+			Console.WriteLine("\nQUERY #3");
+			var studentsByFirstInitial =    // Query type is now IEnumerable<IGrouping<char, Student>>
+				from student in students
+				orderby student.Last
+				group student by student.Last[0];
+
+			foreach (var studentGroup in studentsByFirstInitial) // studentGroup is of type IGrouping<char, Student>
+			{
+				Console.WriteLine(studentGroup.Key);
+				foreach (Student student in studentGroup)
+				{
+					Console.WriteLine($"  {student.Last}, {student.First}");
+				}
 			}
 		}
 
