@@ -50,7 +50,7 @@ namespace linq_exercises
 			}
 		}
 
-		//Create nested class for data source
+		// Create nested class for data source
 		public class Student
 		{
 			public string First { get; set; }
