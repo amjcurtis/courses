@@ -1,13 +1,22 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace linq_exercises
 {
-	class Program
+	public class Program
 	{
 		static void Main(string[] args)
 		{
+			IEnumerable<Student> topStudentsInFirstTest =
+				from student in students
+				where student.Scores[0] > 90
+				select student;
 
+			foreach (Student student in topStudentsInFirstTest)
+			{
+				Console.WriteLine($"{student.Last}, {student.First}");
+			}
 		}
 
 		public class Student
@@ -32,7 +41,8 @@ namespace linq_exercises
 			new Student {First = "Lance", Last = "Tucker", ID = 119, Scores = new List<int> {68, 79, 88, 92}},
 			new Student {First = "Terry", Last = "Adams", ID = 120, Scores = new List<int> {99, 82, 81, 79}},
 			new Student {First = "Eugene", Last = "Zabokritski", ID = 121, Scores = new List<int> {96, 85, 91, 60}},
-			new Student {First = "Michael", Last = "Tucker", ID = 122, Scores = new List<int> {94, 92, 91, 91}}
+			new Student {First = "Michael", Last = "Tucker", ID = 122, Scores = new List<int> {94, 92, 91, 91}},
+			new Student {First = "Rodion", Last = "Raskolnikov", ID = 123, Scores = new List<int> {43, 54, 65, 76}}
 		};
 	}
 }
