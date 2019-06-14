@@ -8,17 +8,34 @@ namespace linq_exercises
 	{
 		static void Main(string[] args)
 		{
+			// QUERY #1
+			Console.WriteLine("QUERY #1");
 			IEnumerable<Student> topStudentsInFirstTest =
 				from student in students
 				where student.Scores[0] > 90
+				orderby student.Last
 				select student;
 
 			foreach (Student student in topStudentsInFirstTest)
 			{
-				Console.WriteLine($"{student.Last}, {student.First}");
+				Console.WriteLine($"{student.Last}, {student.First}: {student.Scores[0]}");
+			}
+
+			// QUERY #2
+			Console.WriteLine("\nQUERY #2");
+			IEnumerable<Student> studentQuery2 =
+				from student in students
+				where student.Scores[0] > 90 && student.Scores[3] < 80
+				orderby student.Last descending
+				select student;
+
+			foreach (Student student in studentQuery2)
+			{
+				Console.WriteLine($"{student.Last}, {student.First}: {student.Scores[0]}, {student.Scores[3]}");
 			}
 		}
 
+		//Create nested class for data source
 		public class Student
 		{
 			public string First { get; set; }
