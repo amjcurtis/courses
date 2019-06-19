@@ -8,6 +8,8 @@ namespace linq_exercises
 	{
 		static void Main(string[] args)
 		{
+			// QUERY #1
+			Console.WriteLine("QUERY #1");
 			IEnumerable<Student> topStudentsInFirstTest =
 				from student in students
 				where student.Scores[0] > 90
@@ -15,10 +17,76 @@ namespace linq_exercises
 
 			foreach (Student student in topStudentsInFirstTest)
 			{
-				Console.WriteLine($"{student.Last}, {student.First}");
+				Console.WriteLine($"{student.Last}, {student.First}: {student.Scores[0]}");
+			}
+
+			// QUERY #2
+			Console.WriteLine("\nQUERY #2");
+			IEnumerable<Student> studentQuery2 =
+				from student in students
+				where student.Scores[0] > 90 && student.Scores[3] < 80
+				orderby student.Last
+				select student;
+
+			foreach (Student student in studentQuery2)
+			{
+				Console.WriteLine($"{student.Last}, {student.First}: {student.Scores[0]}, {student.Scores[3]}");
+			}
+
+			// QUERY #3
+			Console.WriteLine("\nQUERY #3");
+			var studentsByFirstInitial =    // Query type is now IEnumerable<IGrouping<char, Student>>
+				from student in students
+				orderby student.Last
+				group student by student.Last[0];
+
+			foreach (var studentGroup in studentsByFirstInitial) // Type is IGrouping<char, Student>
+			{
+				Console.WriteLine(studentGroup.Key);
+				foreach (Student student in studentGroup)
+				{
+					Console.WriteLine($"  {student.Last}, {student.First}");
+				}
+			}
+
+			// QUERY #4
+			// Gets same result as query #3
+			Console.WriteLine("\nQUERY #4");
+			var studentsByKey = // Type is IOrderedEnumerable<IGrouping<char, Student>>
+				from student in students
+				group student by student.Last[0] into studentGrp
+				orderby studentGrp.Key
+				select studentGrp;
+
+			foreach (var grpStudents in studentsByKey)
+			{
+				Console.WriteLine(grpStudents.Key);
+				foreach (var student in grpStudents)
+				{
+					Console.WriteLine(" {0}, {1}", student.Last, student.First);
+				}
+			}
+
+			// QUERY #5
+			Console.WriteLine("\nQUERY #5");
+			var improvingStudents = // IEnumerable<string>
+				from student in students
+				let totalScore =
+					student.Scores[0] +
+					student.Scores[1] +
+					student.Scores[2] +
+					student.Scores[3]
+				where totalScore / 4 < student.Scores[3]
+				orderby student.Scores[3]
+				select student.Last + ", " + student.First + ": " + student.Scores[3];
+
+			foreach (var student in improvingStudents) // Type is string (b/c of select stmt in query)
+			{
+				Console.WriteLine(student);
 			}
 		}
 
+		// Create nested class for data source
 		public class Student
 		{
 			public string First { get; set; }
