@@ -40,12 +40,30 @@ namespace linq_exercises
 				orderby student.Last
 				group student by student.Last[0];
 
-			foreach (var studentGroup in studentsByFirstInitial) // studentGroup is of type IGrouping<char, Student>
+			foreach (var studentGroup in studentsByFirstInitial) // Type is IGrouping<char, Student>
 			{
 				Console.WriteLine(studentGroup.Key);
 				foreach (Student student in studentGroup)
 				{
 					Console.WriteLine($"  {student.Last}, {student.First}");
+				}
+			}
+
+			// QUERY #4
+			// Gets same result as query #3
+			Console.WriteLine("\nQUERY #4");
+			var studentsByKey = // Type is IOrderedEnumerable<IGrouping<char, Student>>
+				from student in students
+				group student by student.Last[0] into studentGrp
+				orderby studentGrp.Key
+				select studentGrp;
+
+			foreach (var grpStudents in studentsByKey)
+			{
+				Console.WriteLine(grpStudents.Key);
+				foreach (var student in grpStudents)
+				{
+					Console.WriteLine(" {0}, {1}", student.Last, student.First);
 				}
 			}
 		}
