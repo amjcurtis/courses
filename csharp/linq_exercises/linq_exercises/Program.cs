@@ -66,6 +66,24 @@ namespace linq_exercises
 					Console.WriteLine(" {0}, {1}", student.Last, student.First);
 				}
 			}
+
+			// QUERY #5
+			Console.WriteLine("\nQUERY #5");
+			var improvingStudents =
+				from student in students
+				let totalScore =
+					student.Scores[0] +
+					student.Scores[1] +
+					student.Scores[2] +
+					student.Scores[3]
+				where totalScore / 4 < student.Scores[3]
+				orderby student.Scores[3]
+				select student.Last + ", " + student.First + ": " + student.Scores[3];
+
+			foreach (var student in improvingStudents) // Type is string (b/c of select stmt in query)
+			{
+				Console.WriteLine(student);
+			}
 		}
 
 		// Create nested class for data source
