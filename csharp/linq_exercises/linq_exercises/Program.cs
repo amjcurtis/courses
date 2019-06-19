@@ -69,7 +69,7 @@ namespace linq_exercises
 
 			// QUERY #5
 			Console.WriteLine("\nQUERY #5");
-			var improvingStudents =
+			var improvingStudents = // IEnumerable<string>
 				from student in students
 				let totalScore =
 					student.Scores[0] +
