@@ -84,6 +84,20 @@ namespace linq_exercises
 			{
 				Console.WriteLine(student);
 			}
+
+			// QUERY #6
+			Console.WriteLine("\nQUERY #6");
+			var classScoreTotal =
+				from student in students
+				let totalScore =
+					student.Scores[0] +
+					student.Scores[1] +
+					student.Scores[2] +
+					student.Scores[3]
+				select totalScore;
+
+			double avgScore = classScoreTotal.Average();
+			Console.WriteLine("Class avg score = {0}", avgScore);
 		}
 
 		// Create nested class for data source
