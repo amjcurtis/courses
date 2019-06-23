@@ -109,7 +109,8 @@ namespace linq_exercises
 					student.Scores[2] +
 					student.Scores[3]
 				where studentTotalScore > avgScore
-				select new { id = student.ID, score = studentTotalScore };
+				orderby studentTotalScore
+				select new { id = student.ID, score = studentTotalScore }; // Anonymous type
 
 			foreach (var anonType in aboveAvgStudents)
 			{
