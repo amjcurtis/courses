@@ -109,11 +109,24 @@ namespace linq_exercises
 					student.Scores[2] +
 					student.Scores[3]
 				where studentTotalScore > avgScore
-				select new { id = student.ID, score = studentTotalScore };
+				orderby studentTotalScore
+				select new { id = student.ID, score = studentTotalScore }; // Anonymous type
 
 			foreach (var anonType in aboveAvgStudents)
 			{
 				Console.WriteLine("Student ID: {0}, Score: {1}", anonType.id, anonType.score);
+			}
+
+			// QUERY #8
+			Console.WriteLine("\nQUERY #8");
+			var studentsByLastNameInO =
+				from student in students
+				where student.Last.StartsWith('O')
+				select student.First;
+
+			foreach (string firstName in studentsByLastNameInO)
+			{
+				Console.WriteLine(firstName);
 			}
 		}
 
