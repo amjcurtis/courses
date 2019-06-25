@@ -116,6 +116,18 @@ namespace linq_exercises
 			{
 				Console.WriteLine("Student ID: {0}, Score: {1}", anonType.id, anonType.score);
 			}
+
+			// QUERY #8
+			Console.WriteLine("\nQUERY #8");
+			var studentsByLastNameInO =
+				from student in students
+				where student.Last.StartsWith('O')
+				select student.First;
+
+			foreach (string firstName in studentsByLastNameInO)
+			{
+				Console.WriteLine(firstName);
+			}
 		}
 
 		// Create nested class for data source
