@@ -24,6 +24,9 @@ namespace LINQCardShuffle
 			{
 				Console.WriteLine(card);
 			}
+
+			var topHalf = startDeck.Take(26);
+			var bottomHalf = startDeck.Skip(26);
 		}
 
 		static IEnumerable<string> Suits()
