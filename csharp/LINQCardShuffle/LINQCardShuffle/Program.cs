@@ -16,6 +16,14 @@ namespace LINQCardShuffle
 			{
 				Console.WriteLine(card);
 			}
+			Console.WriteLine(Environment.NewLine);
+
+			var startDeckWithMethodSyntax = Suits().SelectMany(suit => Ranks().Select(rank => new { Suit = suit, Rank = rank }));
+
+			foreach (var card in startDeckWithMethodSyntax)
+			{
+				Console.WriteLine(card);
+			}
 		}
 
 		static IEnumerable<string> Suits()
