@@ -14,7 +14,7 @@ namespace LINQCardShuffle
 
 			foreach (var card in startDeck) // var necessary for anonymous type
 			{
-				Console.WriteLine($"{card.Rank} of {card.Suit}");
+				Console.WriteLine(card);
 			}
 		}
 
