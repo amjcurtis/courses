@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LINQCardShuffle
 {
@@ -7,7 +8,14 @@ namespace LINQCardShuffle
 	{
 		static void Main(string[] args)
 		{
-			
+			var startDeck = from s in Suits()
+							from r in Ranks()
+							select new { Suit = s, Rank = r };
+
+			foreach (var card in startDeck) // var necessary for anonymous type
+			{
+				Console.WriteLine($"{card.Rank} of {card.Suit}");
+			}
 		}
 
 		static IEnumerable<string> Suits()
