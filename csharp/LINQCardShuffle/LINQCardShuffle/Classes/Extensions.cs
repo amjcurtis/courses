@@ -50,6 +50,13 @@ namespace LINQCardShuffle.Classes
 			return true;
 		}
 
+		/// <summary>
+		/// Writes specified query to log file
+		/// </summary>
+		/// <typeparam name="T">generic typeparam</typeparam>
+		/// <param name="sequence">sequence passed through log method (to allow further chaining on the query)</param>
+		/// <param name="tag">name of query</param>
+		/// <returns>sequence returned by method that was logged</returns>
 		public static IEnumerable<T> LogQuery<T>(this IEnumerable<T> sequence, string tag)
 		{
 			using (StreamWriter writer = File.AppendText("debug-linqshuffle.log"))

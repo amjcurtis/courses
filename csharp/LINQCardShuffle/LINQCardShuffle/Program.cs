@@ -79,6 +79,10 @@ namespace LINQCardShuffle
 			Console.WriteLine($"Shuffles needed to reproduce original deck sequence: {times}");
 		}
 
+		/// <summary>
+		/// Iterator method that generates suits of cards
+		/// </summary>
+		/// <returns>enumerable sequence of strings</returns>
 		static IEnumerable<string> Suits()
 		{
 			yield return "clubs";
@@ -87,6 +91,10 @@ namespace LINQCardShuffle
 			yield return "spades";
 		}
 
+		/// <summary>
+		/// Iterator method that generates card ranks
+		/// </summary>
+		/// <returns>enumerable sequence of strings</returns>
 		static IEnumerable<string> Ranks()
 		{
 			yield return "two";
