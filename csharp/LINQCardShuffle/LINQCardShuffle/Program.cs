@@ -13,7 +13,9 @@ namespace LINQCardShuffle
 			// The combined from clauses translate into the SelectMany method in LINQ method syntax
 			var startDeck = (from s in Suits().LogQuery("Suit Generation")
 							from r in Ranks().LogQuery("Rank Generation")
-							select new { Suit = s, Rank = r }).LogQuery("Starting Deck");
+							select new { Suit = s, Rank = r })
+							.LogQuery("Starting Deck")
+							.ToArray();
 
 			Console.WriteLine("BUILD DECK OF CARDS");
 			foreach (var card in startDeck) // var necessary for anonymous types
@@ -53,14 +55,14 @@ namespace LINQCardShuffle
 			do
 			{
 				// "Out" shuffle
-				shuffle = shuffle.Take(26).LogQuery("TopHalf")
-								 .ZipSequenceWith(shuffle.Skip(26).LogQuery("BottomHalf"))
-								 .LogQuery("Shuffle");
+				//shuffle = shuffle.Take(26).LogQuery("TopHalf")
+				//				 .ZipSequenceWith(shuffle.Skip(26).LogQuery("BottomHalf"))
+				//				 .LogQuery("Shuffle");
 
 				// "In" shuffle
-				//shuffle = shuffle.Skip(26).LogQuery("Bottom half")
-				// .ZipSequenceWith(shuffle.Take(26).LogQuery("Top half"))
-				// .LogQuery("Shuffle");
+				shuffle = shuffle.Skip(26).LogQuery("Bottom half")
+								 .ZipSequenceWith(shuffle.Take(26).LogQuery("Top half"))
+								 .LogQuery("Shuffle");
 
 				foreach (var card in shuffle)
 				{
