@@ -6,7 +6,13 @@ namespace LINQCardShuffle.Classes
 {
 	static class Extensions
 	{
-
+		/// <summary>
+		/// Extension method for shuffling sequence by interleaving alternating elements of two subsequences
+		/// </summary>
+		/// <typeparam name="T">generic typeparam</typeparam>
+		/// <param name="first">sequence to interleave with second sequence</param>
+		/// <param name="second">second sequence to interleave first sequence with</param>
+		/// <returns>zipped sequence</returns>
 		public static IEnumerable<T> ZipSequenceWith<T>(this IEnumerable<T> first, IEnumerable<T> second)
 		{
 			var firstIter = first.GetEnumerator();

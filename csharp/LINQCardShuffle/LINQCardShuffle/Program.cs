@@ -52,7 +52,7 @@ namespace LINQCardShuffle
 			shuffle = startDeck;
 			do
 			{
-				shuffle = shuffle.Take(26).ZipSequenceWith(shuffle.Skip(26));
+				shuffle = shuffle.Skip(26).ZipSequenceWith(shuffle.Take(26));
 
 				foreach (var card in shuffle)
 				{
