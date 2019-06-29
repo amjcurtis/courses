@@ -24,15 +24,15 @@ namespace LINQCardShuffle
 			}
 			Console.WriteLine();
 
+		/*
 			// Perform same query using method syntax
-			/*
 			var startDeckWithMethodSyntax = Suits().SelectMany(suit => Ranks().Select(rank => new { Suit = suit, Rank = rank }));
 
 			foreach (var card in startDeckWithMethodSyntax)
 			{
 				Console.WriteLine(card);
 			}
-			*/
+		*/
 
 			// Split deck in two
 			var topHalf = startDeck.Take(26);
@@ -52,17 +52,20 @@ namespace LINQCardShuffle
 			Console.WriteLine("COUNT NUMBER OF SHUFFLES REQUIRED TO REPRODUCE ORIGINAL DECK SEQUENCE");
 			int times = 0;
 			shuffle = startDeck;
+
 			do
 			{
-				// "Out" shuffle
+				// "Out" shuffle (top and bottom cards stay the same on each run)
 				//shuffle = shuffle.Take(26).LogQuery("TopHalf")
 				//				 .ZipSequenceWith(shuffle.Skip(26).LogQuery("BottomHalf"))
-				//				 .LogQuery("Shuffle");
+				//				 .LogQuery("Shuffle")
+				//				 .ToArray();
 
-				// "In" shuffle
+				// "In" shuffle (all 52 cards change position on each run)
 				shuffle = shuffle.Skip(26).LogQuery("Bottom half")
 								 .ZipSequenceWith(shuffle.Take(26).LogQuery("Top half"))
-								 .LogQuery("Shuffle");
+								 .LogQuery("Shuffle")
+								 .ToArray();
 
 				foreach (var card in shuffle)
 				{
