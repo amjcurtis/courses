@@ -9,22 +9,23 @@ namespace LINQCardShuffle
 	{
 		static void Main(string[] args)
 		{
-			// Create single sequence of all cards by combining each element of Suits seq with each element of Ranks seq
+			// Build single sequence (deck) of all cards by combining each element of Suits sequence with each element of Ranks sequence
 			// The combined from clauses translate into the SelectMany method in LINQ method syntax
 			var startDeck = from s in Suits()
 							from r in Ranks()
 							select new { Suit = s, Rank = r };
 
+			Console.WriteLine("BUILD DECK OF CARDS");
 			foreach (var card in startDeck) // var necessary for anonymous types
 			{
 				Console.WriteLine(card);
 			}
+			Console.WriteLine();
 
 			// Perform same query using method syntax
 			/*
 			var startDeckWithMethodSyntax = Suits().SelectMany(suit => Ranks().Select(rank => new { Suit = suit, Rank = rank }));
 
-			Console.WriteLine(Environment.NewLine);
 			foreach (var card in startDeckWithMethodSyntax)
 			{
 				Console.WriteLine(card);
@@ -34,12 +35,35 @@ namespace LINQCardShuffle
 			// Split deck in two
 			var topHalf = startDeck.Take(26);
 			var bottomHalf = startDeck.Skip(26);
+
+			// Shuffle the deck
+			Console.WriteLine("DEMO DECK SHUFFLE");
 			var shuffle = topHalf.ZipSequenceWith(bottomHalf);
 
 			foreach (var card in shuffle)
 			{
 				Console.WriteLine(card);
 			}
+			Console.WriteLine();
+
+			// Count number of shuffles required to reproduce original sequence of cards
+			Console.WriteLine("COUNT NUMBER OF SHUFFLES REQUIRED TO REPRODUCE ORIGINAL DECK SEQUENCE");
+			int times = 0;
+			shuffle = startDeck;
+			do
+			{
+				shuffle = shuffle.Take(26).ZipSequenceWith(shuffle.Skip(26));
+
+				foreach (var card in shuffle)
+				{
+					Console.WriteLine(card);
+				}
+				times++;
+				Console.WriteLine($"times = {times}");
+
+			} while (!startDeck.SequenceEquals(shuffle));
+
+			Console.WriteLine($"Shuffles needed to reproduce original deck sequence: {times}");
 		}
 
 		static IEnumerable<string> Suits()

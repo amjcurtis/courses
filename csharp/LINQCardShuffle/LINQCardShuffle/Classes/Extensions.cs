@@ -6,6 +6,7 @@ namespace LINQCardShuffle.Classes
 {
 	static class Extensions
 	{
+
 		public static IEnumerable<T> ZipSequenceWith<T>(this IEnumerable<T> first, IEnumerable<T> second)
 		{
 			var firstIter = first.GetEnumerator();
@@ -16,6 +17,30 @@ namespace LINQCardShuffle.Classes
 				yield return firstIter.Current;
 				yield return secondIter.Current;
 			}
+		}
+
+		/// <summary>
+		/// Terminal extension method for determining whether two enumerable sequences are equal. 
+		/// Returns single value instead of a sequence, hence it's always final ("terminal") method in any query it's used in.
+		/// </summary>
+		/// <typeparam name="T">generic typeparam</typeparam>
+		/// <param name="first">sequence to compare to second sequence</param>
+		/// <param name="second">second sequence to compare first sequence to</param>
+		/// <returns>boolean value</returns>
+		public static bool SequenceEquals<T>(this IEnumerable<T> first, IEnumerable<T> second)
+		{
+			var firstIter = first.GetEnumerator();
+			var secondIter = second.GetEnumerator();
+
+			while (firstIter.MoveNext() && secondIter.MoveNext())
+			{
+				if (!firstIter.Current.Equals(secondIter.Current))
+				{
+					return false;
+				}
+			}
+
+			return true;
 		}
 	}
 }
