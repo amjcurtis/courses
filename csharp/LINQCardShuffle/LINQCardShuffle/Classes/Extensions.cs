@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace LINQCardShuffle.Classes
@@ -47,6 +48,16 @@ namespace LINQCardShuffle.Classes
 			}
 
 			return true;
+		}
+
+		public static IEnumerable<T> LogQuery<T>(this IEnumerable<T> sequence, string tag)
+		{
+			using (StreamWriter writer = File.AppendText("debug-linqshuffle.log"))
+			{
+				writer.WriteLine($"Executing query {tag}");
+			}
+
+			return sequence;
 		}
 	}
 }
