@@ -44,5 +44,15 @@ namespace TodoApi.Controllers
 
 			return todoItem;
 		}
+
+		// POST endpoint: api/Todo
+		[HttpPost]
+		public async Task<ActionResult<TodoItem>> AddTodoItem(TodoItem item)
+		{
+			_context.TodoItems.Add(item);
+			await _context.SaveChangesAsync();
+
+			return CreatedAtAction(nameof(GetTodoItemById), new { id = item.Id }, item);
+		}
 	}
 }
