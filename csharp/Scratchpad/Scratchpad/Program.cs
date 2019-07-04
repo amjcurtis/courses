@@ -80,6 +80,7 @@ namespace Scratchpad
 			return int.TryParse(str, out int intFromStr) ? intFromStr : 0;
 		}
 
+		// Static field for use in RangeSumBST() method
 		public static int sum;
 
 		// Sum BST nodes within specified range
