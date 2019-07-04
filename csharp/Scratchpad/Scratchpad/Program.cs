@@ -53,8 +53,8 @@ namespace Scratchpad
 			bst.Root.LeftChild.RightChild.LeftChild = new Node<int>(6);
 
 			// Demo RangeSumBST() method
-			int sum = RangeSumBST(bst.Root, 37, 60);
-			Console.WriteLine(sum);
+			int sum = RangeSumBST(bst.Root, 6, 10);
+			Console.WriteLine($"Final sum: {sum}");
 		}
 
 		// Reverses an integer
@@ -80,38 +80,35 @@ namespace Scratchpad
 			return int.TryParse(str, out int intFromStr) ? intFromStr : 0;
 		}
 
+		public static int sum;
+
 		// Sum BST nodes within specified range
 		public static int RangeSumBST(Node<int> root, int L, int R)
 		{
-			int sum = 0;
-			Node<int> temp = root;
+			PreOrder(root, L, R);
+			return sum;
+		}
 
-			// Error check 
-			if (root == null) { return 0; }
-
-			// Add root value to sum
-			if (root.Value == L || root.Value == R) { sum += root.Value; }
-
-			// Traverse left to get all nodes greater'n or equal to L
-			while (root != null && root.Value >= L)
+		public static void PreOrder(Node<int> root, int L, int R)
+		{
+			if (root != null)
 			{
-				if (root.Value <= R)
+				if (root.Value >= L && root.Value <= R)
 				{
 					sum += root.Value;
+					Console.WriteLine($"root.Value: {root.Value}");
+					Console.WriteLine($"sum is now {sum}");
 				}
-				root = root.LeftChild;
+				if (L < root.Value)
+				{
+					PreOrder(root.LeftChild, L, R);
+				}
+				if (R > root.Value)
+				{
+					PreOrder(root.RightChild, L, R);
+				}
+
 			}
-
-			// Reset root to original root before traversing other side of tree
-			root = temp;
-
-			// Traverse right to get all nodes less than or equal to R
-			while (root != null && root.Value <= R)
-			{
-
-			}
-
-			return sum;
 		}
 	}
 }
