@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using BinaryTree.Classes;
 
 namespace Scratchpad
 {
@@ -38,6 +39,22 @@ namespace Scratchpad
 
 			int num5 = int.MinValue;
 			int revdInt5 = Reverse(num5);
+
+
+			// Instantiate and populate new tree for demo'ing RangeSumBST() method
+			BinarySearchTree<int> bst = new BinarySearchTree<int>();
+			bst.Root = new Node<int>(10);
+			bst.Root.LeftChild = new Node<int>(5);
+			bst.Root.RightChild = new Node<int>(15);
+			bst.Root.LeftChild.LeftChild = new Node<int>(3);
+			bst.Root.LeftChild.RightChild = new Node<int>(7);
+			bst.Root.RightChild.RightChild = new Node<int>(18);
+			bst.Root.LeftChild.LeftChild.LeftChild = new Node<int>(1);
+			bst.Root.LeftChild.RightChild.LeftChild = new Node<int>(6);
+
+			// Demo RangeSumBST() method
+			int sum = RangeSumBST(bst.Root, 37, 60);
+			Console.WriteLine(sum);
 		}
 
 		// Reverses an integer
@@ -61,6 +78,40 @@ namespace Scratchpad
 			}
 			string str = new string(charArr);
 			return int.TryParse(str, out int intFromStr) ? intFromStr : 0;
+		}
+
+		// Sum BST nodes within specified range
+		public static int RangeSumBST(Node<int> root, int L, int R)
+		{
+			int sum = 0;
+			Node<int> temp = root;
+
+			// Error check 
+			if (root == null) { return 0; }
+
+			// Add root value to sum
+			if (root.Value == L || root.Value == R) { sum += root.Value; }
+
+			// Traverse left to get all nodes greater'n or equal to L
+			while (root != null && root.Value >= L)
+			{
+				if (root.Value <= R)
+				{
+					sum += root.Value;
+				}
+				root = root.LeftChild;
+			}
+
+			// Reset root to original root before traversing other side of tree
+			root = temp;
+
+			// Traverse right to get all nodes less than or equal to R
+			while (root != null && root.Value <= R)
+			{
+
+			}
+
+			return sum;
 		}
 	}
 }
