@@ -57,8 +57,8 @@ namespace Scratchpad
 			Console.WriteLine($"Final sum: {sum}");
 		}
 
-		// Reverses an integer
-		public static int Reverse(int x)
+	// Reverses an integer
+	public static int Reverse(int x)
 		{
 			if (x > int.MaxValue || x < int.MinValue) return 0;
 			string intToStr = x.ToString();
@@ -89,6 +89,7 @@ namespace Scratchpad
 			return sum;
 		}
 
+		// Recursive preorder tree traversal method
 		public static void PreOrder(Node<int> root, int L, int R)
 		{
 			if (root != null)
