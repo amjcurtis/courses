@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using BinaryTree.Classes;
 
 namespace Scratchpad
 {
@@ -38,10 +39,26 @@ namespace Scratchpad
 
 			int num5 = int.MinValue;
 			int revdInt5 = Reverse(num5);
+
+
+			// Instantiate and populate new tree for demo'ing RangeSumBST() method
+			BinarySearchTree<int> bst = new BinarySearchTree<int>();
+			bst.Root = new Node<int>(10);
+			bst.Root.LeftChild = new Node<int>(5);
+			bst.Root.RightChild = new Node<int>(15);
+			bst.Root.LeftChild.LeftChild = new Node<int>(3);
+			bst.Root.LeftChild.RightChild = new Node<int>(7);
+			bst.Root.RightChild.RightChild = new Node<int>(18);
+			bst.Root.LeftChild.LeftChild.LeftChild = new Node<int>(1);
+			bst.Root.LeftChild.RightChild.LeftChild = new Node<int>(6);
+
+			// Demo RangeSumBST() method
+			int sum = RangeSumBST(bst.Root, 6, 10);
+			Console.WriteLine($"Final sum: {sum}");
 		}
 
-		// Reverses an integer
-		public static int Reverse(int x)
+	// Reverses an integer
+	public static int Reverse(int x)
 		{
 			if (x > int.MaxValue || x < int.MinValue) return 0;
 			string intToStr = x.ToString();
@@ -61,6 +78,38 @@ namespace Scratchpad
 			}
 			string str = new string(charArr);
 			return int.TryParse(str, out int intFromStr) ? intFromStr : 0;
+		}
+
+		public static int sum;
+
+		// Sum BST nodes within specified range
+		public static int RangeSumBST(Node<int> root, int L, int R)
+		{
+			PreOrder(root, L, R);
+			return sum;
+		}
+
+		// Recursive preorder tree traversal method
+		public static void PreOrder(Node<int> root, int L, int R)
+		{
+			if (root != null)
+			{
+				if (root.Value >= L && root.Value <= R)
+				{
+					sum += root.Value;
+					Console.WriteLine($"root.Value: {root.Value}");
+					Console.WriteLine($"sum is now {sum}");
+				}
+				if (L < root.Value)
+				{
+					PreOrder(root.LeftChild, L, R);
+				}
+				if (R > root.Value)
+				{
+					PreOrder(root.RightChild, L, R);
+				}
+
+			}
 		}
 	}
 }
