@@ -112,5 +112,16 @@ namespace Scratchpad
 
 			}
 		}
+                
+                public static string ToLowerCase(string str) {
+                    char[] chars = str.ToCharArray();
+                    for (int i = 0; i < chars.Length; i++) {
+                        if (Char.IsUpper(chars[i])) {
+                            chars[i] = Char.ToLower(chars[i]);
+                        }
+                    }
+                    return new string(chars);
+                }
+            }
 	}
 }
