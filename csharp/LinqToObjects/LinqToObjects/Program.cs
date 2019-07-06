@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace LinqToObjects
@@ -11,7 +12,7 @@ namespace LinqToObjects
 			// Count occurrences of a word in a string
 			///////////////////////////////////////////
 			
-			Console.WriteLine("COUNT OCCURRENCES OF A WORD IN A STRING");
+			Console.WriteLine("COUNT OCCURRENCES OF A WORD IN A STRING\n");
 
 			string text = @"Historically, the world of data and the world of objects" + // @ sign lets you specify string w/o having to escape anything
 			  @" have not been well integrated. Programmers work in C# or Visual Basic" +
@@ -41,7 +42,7 @@ namespace LinqToObjects
 			// Query for sentences containing specified sets of words
 			///////////////////////////////////////////
 
-			Console.WriteLine("\nQUERY FOR SENTENCES CONTAINING SPECIFIED SETS OF WORDS");
+			Console.WriteLine("\nQUERY FOR SENTENCES CONTAINING SPECIFIED SETS OF WORDS\n");
 
 			string text1 = @"Historically, the world of data and the world of objects " +
 		@"have not been well integrated. Programmers work in C# or Visual Basic " +
@@ -70,6 +71,40 @@ namespace LinqToObjects
 			{
 				Console.WriteLine(sent);
 			}
+
+			///////////////////////////////////////////
+			// Query for characters in a string
+			///////////////////////////////////////////
+
+			Console.WriteLine("\nQUERY FOR CHARACTERS IN A STRING\n");
+
+			string aString = "ABCDE99F-J74-12-06A";
+			Console.WriteLine("Original string: {0}", aString);
+
+			// Select only the chars that are numbers
+			IEnumerable<char> stringQuery = from ch in aString
+											where Char.IsDigit(ch)
+											select ch;
+
+			// Execute query
+			foreach (char c in stringQuery)
+			{
+				Console.Write("{0} ", c);
+			}
+			Console.WriteLine();
+
+			int count = stringQuery.Count();
+			Console.WriteLine("Count = {0}", count);
+
+			// Select all chars before dash
+			IEnumerable<char> charsBeforeDash = aString.TakeWhile(c => c != '-');
+
+			// Execute second query
+			foreach (char c in charsBeforeDash)
+			{
+				Console.Write(c);
+			}
+			Console.WriteLine();
 		}
 	}
 }
