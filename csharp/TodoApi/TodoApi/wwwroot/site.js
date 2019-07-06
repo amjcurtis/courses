@@ -20,7 +20,7 @@ $(document).ready(function () {
 
 function getData() {
     $.ajax({
-        type: 'GET',
+        type: 'GET', // In $.ajax() settings object, 'type' is alias for 'method'
         url: uri,
         cache: false,
         success: function (data) {
@@ -30,7 +30,7 @@ function getData() {
 
             getCount(data.length);
 
-            $.each(data, function (key, item) {
+            $.each(data, function (key, item) { // $.each() is generic iterator function
                 const tr = $('<tr></tr>')
                     .append(
                         $('<td></td>').append(
