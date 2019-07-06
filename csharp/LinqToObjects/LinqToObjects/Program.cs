@@ -23,7 +23,7 @@ namespace LinqToObjects
 			string searchTerm = "data";
 
 			// Convert string into array of words
-			string[] source = text.Split(new char[] { '.', ',', ':', ';', '!', '?' }, StringSplitOptions.RemoveEmptyEntries);
+			string[] source = text.Split(new char[] { ' ', '.', ',', ':', ';', '!', '?' }, StringSplitOptions.RemoveEmptyEntries);
 
 			// Create query, using ToLowerInvariant to match "data" and "Data"
 			var matchQuery = from word in source
