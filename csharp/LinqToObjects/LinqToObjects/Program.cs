@@ -165,6 +165,51 @@ namespace LinqToObjects
 			{
 				Console.WriteLine(name);
 			}
+
+			///////////////////////////////////////////
+			// Combine and compare strings
+			///////////////////////////////////////////
+
+			Console.WriteLine("\nCOMBINE AND COMPARE STRINGS\n");
+
+			string[] fileA = System.IO.File.ReadAllLines(@"../../../names1.txt");
+			string[] fileB = System.IO.File.ReadAllLines(@"../../../names2.txt");
+
+			// Simple concatenation and sort; duplicates are preserved
+			IEnumerable<string> concatQuery = fileA.Concat(fileB)
+												   .OrderBy(n => n);
+
+			// Pass query to utility method for execution and writing it to console
+			OutputQueryResult(concatQuery, "Simple concat and sort, preserving duplicates:");
+
+			// Concatenate and remove duplicate names based on default string comparer
+			IEnumerable<string> uniqueNamesQuery = fileA.Union(fileB)
+														.OrderBy(n => n);
+			OutputQueryResult(uniqueNamesQuery, "Union removes duplicate names:");
+
+			// Find names common to both files
+			IEnumerable<string> sharedNamesQuery = fileA.Intersect(fileB)
+														.OrderBy(n => n);
+			OutputQueryResult(sharedNamesQuery, "Merge based on intersect:");
+
+			// Find matching fields in each list, then take unique and sort
+			string nameMatch = "Garcia";
+
+			IEnumerable<string> tempQuery1 = from name in fileA
+											 let n = name.Split(',')
+											 where n[0] == nameMatch
+											 select name;
+
+			IEnumerable<string> tempQuery2 = from name in fileB
+											 let n = name.Split(',')
+											 where n[0] == nameMatch
+											 select name;
+
+			IEnumerable<string> nameMatchQuery = tempQuery1.Concat(tempQuery2)
+														   .Distinct()
+														   .OrderBy(n => n);
+
+			OutputQueryResult(nameMatchQuery, $"Concat and take unique based on last name match \"{nameMatch}\":");
 		}
 
 		// Method for use with LINQ + Regex query
@@ -185,6 +230,17 @@ namespace LinqToObjects
 			}
 
 			return files;
+		}
+
+		// Utility method for executing query and printing results
+		public static void OutputQueryResult(IEnumerable<string> query, string msg)
+		{
+			Console.WriteLine(System.Environment.NewLine + msg);
+			foreach (string str in query)
+			{
+				Console.WriteLine(str);
+			}
+			Console.WriteLine("{0} total items in list", query.Count());
 		}
 	}
 }
