@@ -145,8 +145,29 @@ namespace LinqToObjects
 					Console.WriteLine(" {0}", matchItem);
 				}
 			}
+
+			///////////////////////////////////////////
+			// Find set difference between two lists
+			///////////////////////////////////////////
+
+			Console.WriteLine("\nFIND SET DIFFERENCE BETWEEN TWO LISTS\n");
+
+			// Create IEnumerable data sources
+			string[] names1 = System.IO.File.ReadAllLines(@"../../../names1.txt");
+			string[] names2 = System.IO.File.ReadAllLines(@"../../../names2.txt");
+
+			// Create query
+			IEnumerable<string> diffQuery = names1.Except(names2);
+
+			// Execute query
+			Console.WriteLine("Lines in names1.txt but not in names2.txt:");
+			foreach (string name in diffQuery)
+			{
+				Console.WriteLine(name);
+			}
 		}
 
+		// Method for use with LINQ + Regex query
 		public static IEnumerable<System.IO.FileInfo> GetFiles(string path)
 		{
 			if (!System.IO.Directory.Exists(path))
