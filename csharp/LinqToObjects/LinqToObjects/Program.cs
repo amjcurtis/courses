@@ -120,15 +120,15 @@ namespace LinqToObjects
 			System.Text.RegularExpressions.Regex rgx = new System.Text.RegularExpressions.Regex(@"Visual (Basic|C\+\+|C#|Studio)");
 
 			var queryMatchingFiles = from file in fileList
-									 where file.Extension == ".htm"
+									 where file.Extension == ".htm" // Or try where file.Extension.Contains(".htm")
 									 let fileText = System.IO.File.ReadAllText(file.FullName)
 									 let matches = rgx.Matches(fileText)
 									 where matches.Count > 0
 									 select new
 									 {
 										 name = file.FullName,
-										 matchedValues = from System.Text.RegularExpressions.MatchCollection match in matches
-														 select match
+										 matchedValues = from System.Text.RegularExpressions.Match match in matches
+														 select match.Value
 									 };
 
 			// Execute query
