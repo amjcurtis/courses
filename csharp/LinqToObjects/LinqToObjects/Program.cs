@@ -170,7 +170,7 @@ namespace LinqToObjects
 			// Combine and compare strings
 			///////////////////////////////////////////
 
-			Console.WriteLine("\nCOMBINE AND COMPARE STRINGS\n");
+			Console.WriteLine("\nCOMBINE AND COMPARE STRINGS");
 
 			string[] fileA = System.IO.File.ReadAllLines(@"../../../names1.txt");
 			string[] fileB = System.IO.File.ReadAllLines(@"../../../names2.txt");
