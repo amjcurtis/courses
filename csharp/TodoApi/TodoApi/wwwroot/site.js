@@ -10,9 +10,9 @@ function getCount(data) {
         if (data > 1) {
             name = 'to-dos';
         }
-        elem.text(data + ' ' + name);
+        elem.text(`${data} ${name}`);
     } else {
-        elem.text('No ' + name);
+        elem.text(`No ${name}`);
     }
 }
 
@@ -37,7 +37,7 @@ function getData() {
                     .append(
                         $('<td></td>').append(
                             $('<input/>', {
-                                type: checkbox,
+                                type: 'checkbox', // Missing quotes here was enough to break my page
                                 disabled: true,
                                 checked: item.isComplete
                             })
@@ -58,6 +58,7 @@ function getData() {
                             })
                         )
                     );
+
                 tr.appendTo(tBody);
             });
 
@@ -73,8 +74,8 @@ function addItem() {
     };
 
     $.ajax({
-        url: uri,
         type: 'POST',
+        url: uri,
         accepts: 'application/json',
         contentType: 'application/json',
         data: JSON.stringify(item),
@@ -90,7 +91,7 @@ function addItem() {
 
 function deleteItem(id) {
     $.ajax({
-        url: uri + "/" + id,
+        url: `${uri}/${id}`,
         type: 'DELETE',
         success: function (result) {
             getData();
@@ -113,15 +114,14 @@ $('.my-form').on('submit', function () {
     const item = {
         name: $('#edit-name').val(),
         isComplete: $('#edit-isComplete').is(':checked'),
-        id: $('#edit-id').val()
+        id: $('#edit-id').val() // Wrongly added semicolon here was enough to break page
     };
 
     $.ajax({
-        //url: `${uri}/${$('#edit-id').val()}`,
-        url: uri + '/' + $('#edit-id').val(),
+        url: `${uri}/${$('#edit-id').val()}`,
         type: 'PUT',
         accepts: 'application/json',
-        contentType: "application/json",
+        contentType: 'application/json',
         data: JSON.stringify(item),
         success: function (result) {
             getData();
