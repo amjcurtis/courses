@@ -115,7 +115,8 @@ $('.my-form').on('submit', function () {
     };
 
     $.ajax({
-        url: `${uri}/${$('#edit-id').val()}`,
+        //url: `${uri}/${$('#edit-id').val()}`,
+        url: uri + '/' + $('#edit-id').val(),
         type: 'PUT',
         accepts: 'application/json',
         data: JSON.stringify(item),
