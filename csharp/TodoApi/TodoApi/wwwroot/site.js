@@ -1,4 +1,6 @@
-﻿const uri = 'api/todo';
+﻿'use strict';
+
+const uri = 'api/todo';
 let todos = null;
 
 function getCount(data) {
@@ -8,9 +10,9 @@ function getCount(data) {
         if (data > 1) {
             name = 'to-dos';
         }
-        elem.text(`${data} ${name}`);
+        elem.text(data + ' ' + name);
     } else {
-        elem.text(`No ${name}`);
+        elem.text('No ' + name);
     }
 }
 
@@ -71,9 +73,9 @@ function addItem() {
     };
 
     $.ajax({
+        url: uri,
         type: 'POST',
         accepts: 'application/json',
-        url: uri,
         contentType: 'application/json',
         data: JSON.stringify(item),
         error: function (jqXHR, textStatus, errorThrown) {
@@ -88,7 +90,7 @@ function addItem() {
 
 function deleteItem(id) {
     $.ajax({
-        url: `${uri}/${id}`,
+        url: uri + "/" + id,
         type: 'DELETE',
         success: function (result) {
             getData();
@@ -104,14 +106,14 @@ function editItem(id) {
             $('#edit-isComplete')[0].checked = item.isComplete;
         }
     });
-    $('#spoiler').css({ display: 'block' });
+    $('#spoiler').css({ display: "block" });
 }
 
 $('.my-form').on('submit', function () {
     const item = {
         name: $('#edit-name').val(),
         isComplete: $('#edit-isComplete').is(':checked'),
-        id: $('#edit-id').val();
+        id: $('#edit-id').val()
     };
 
     $.ajax({
@@ -119,6 +121,7 @@ $('.my-form').on('submit', function () {
         url: uri + '/' + $('#edit-id').val(),
         type: 'PUT',
         accepts: 'application/json',
+        contentType: "application/json",
         data: JSON.stringify(item),
         success: function (result) {
             getData();
@@ -130,5 +133,5 @@ $('.my-form').on('submit', function () {
 });
 
 function closeInput() {
-    $('#spoiler').css({ display: 'none' });
+    $('#spoiler').css({ display: "none" });
 }
