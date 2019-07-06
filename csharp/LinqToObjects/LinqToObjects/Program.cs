@@ -105,6 +105,65 @@ namespace LinqToObjects
 				Console.Write(c);
 			}
 			Console.WriteLine();
+
+			///////////////////////////////////////////
+			// Combine LINQ with Regular Expressions
+			///////////////////////////////////////////
+
+			Console.WriteLine("COMBINE LINQ WITH REGEXES");
+
+			string startFolder = @"C:\Program Files (x86)\Microsoft Visual Studio\2017";
+
+			IEnumerable<System.IO.FileInfo> fileList = GetFiles(startFolder);
+
+			// Create Regex to find all things Visual
+			System.Text.RegularExpressions.Regex rgx = new System.Text.RegularExpressions.Regex(@"Visual (Basic|C\+\+|C#|Studio)");
+
+			var queryMatchingFiles = from file in fileList
+									 where file.Extension == ".htm"
+									 let fileText = System.IO.File.ReadAllText(file.FullName)
+									 let matches = rgx.Matches(fileText)
+									 where matches.Count > 0
+									 select new
+									 {
+										 name = file.FullName,
+										 matchedValues = from System.Text.RegularExpressions.MatchCollection match in matches
+														 select match
+									 };
+
+			// Execute query
+			Console.WriteLine("The term \"{0}\" was found in:", rgx.ToString());
+			foreach (var hit in queryMatchingFiles)
+			{
+				// Trim path, then write file name
+				string s = hit.name.Substring(startFolder.Length - 1);
+				Console.WriteLine(s);
+
+				// For current file, write out all the matching strings
+				foreach (var matchItem in hit.matchedValues)
+				{
+					Console.WriteLine(" {0}", matchItem);
+				}
+			}
+		}
+
+		public static IEnumerable<System.IO.FileInfo> GetFiles(string path)
+		{
+			if (!System.IO.Directory.Exists(path))
+			{
+				throw new System.IO.DirectoryNotFoundException();
+			}
+
+			string[] fileNames = null;
+			List<System.IO.FileInfo> files = new List<System.IO.FileInfo>();
+
+			fileNames = System.IO.Directory.GetFiles(path, "*.*", System.IO.SearchOption.AllDirectories);
+			foreach (string name in fileNames)
+			{
+				files.Add(new System.IO.FileInfo(name));
+			}
+
+			return files;
 		}
 	}
 }
