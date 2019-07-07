@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AndrewsUtilityCode.Classes;
 
 namespace LinqToObjects
 {
@@ -180,17 +181,17 @@ namespace LinqToObjects
 												   .OrderBy(n => n);
 
 			// Pass query to utility method for execution and writing it to console
-			OutputQueryResult(concatQuery, "Simple concat and sort, preserving duplicates:");
+			Output.PrintQueryResult(concatQuery, "Simple concat and sort, preserving duplicates:");
 
 			// Concatenate and remove duplicate names based on default string comparer
 			IEnumerable<string> uniqueNamesQuery = fileA.Union(fileB)
 														.OrderBy(n => n);
-			OutputQueryResult(uniqueNamesQuery, "Union removes duplicate names:");
+			Output.PrintQueryResult(uniqueNamesQuery, "Union removes duplicate names:");
 
 			// Find names common to both files
 			IEnumerable<string> sharedNamesQuery = fileA.Intersect(fileB)
 														.OrderBy(n => n);
-			OutputQueryResult(sharedNamesQuery, "Merge based on intersect:");
+			Output.PrintQueryResult(sharedNamesQuery, "Merge based on intersect:");
 
 			// Find matching fields in each list, then take unique and sort
 			string nameMatch = "Garcia";
@@ -209,7 +210,7 @@ namespace LinqToObjects
 														   .Distinct()
 														   .OrderBy(n => n);
 
-			OutputQueryResult(nameMatchQuery, $"Concat and take unique based on last name match \"{nameMatch}\":");
+			Output.PrintQueryResult(nameMatchQuery, $"Concat and take unique based on last name match \"{nameMatch}\":");
 		}
 
 		// Method for use with LINQ + Regex query
@@ -230,17 +231,6 @@ namespace LinqToObjects
 			}
 
 			return files;
-		}
-
-		// Utility method for executing query and printing results
-		public static void OutputQueryResult(IEnumerable<string> query, string msg)
-		{
-			Console.WriteLine(System.Environment.NewLine + msg);
-			foreach (string str in query)
-			{
-				Console.WriteLine(str);
-			}
-			Console.WriteLine("{0} total items in list", query.Count());
 		}
 	}
 }
