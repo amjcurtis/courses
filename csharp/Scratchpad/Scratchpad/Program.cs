@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 using BinaryTree.Classes;
 
 namespace Scratchpad
@@ -22,26 +24,23 @@ namespace Scratchpad
 
 			int num2 = 456;
 			int revdInt2 = Reverse(num2);
-
-			Stopwatch sw1 = new Stopwatch();
-
+			
 			int num3 = 78;
-			sw1.Start();
+			Stopwatch sw = Stopwatch.StartNew();
 			int revdInt3 = Reverse(num3);
-			sw1.Start();
-			Console.WriteLine(sw1.ElapsedTicks);
+			sw.Stop();
+			Console.WriteLine(sw.Elapsed);
 
 			int num4 = -89;
-			sw1.Restart();
+			sw.Restart();
 			int revdInt4 = Reverse(num4);
-			sw1.Stop();
-			Console.WriteLine(sw1.ElapsedTicks);
+			sw.Stop();
+			Console.WriteLine(sw.Elapsed);
 
 			int num5 = int.MinValue;
 			int revdInt5 = Reverse(num5);
-
-
-			// Instantiate and populate new tree for demo'ing RangeSumBST() method
+			
+			// Demo RangeSumBST() method
 			BinarySearchTree<int> bst = new BinarySearchTree<int>();
 			bst.Root = new Node<int>(10);
 			bst.Root.LeftChild = new Node<int>(5);
@@ -52,33 +51,60 @@ namespace Scratchpad
 			bst.Root.LeftChild.LeftChild.LeftChild = new Node<int>(1);
 			bst.Root.LeftChild.RightChild.LeftChild = new Node<int>(6);
 
-			// Demo RangeSumBST() method
 			int sum = RangeSumBST(bst.Root, 6, 10);
-			Console.WriteLine($"Final sum: {sum}");
+			Console.WriteLine($"Final sum: {sum}"); // 23
+			Console.WriteLine();
+
+			// Demo UniqueMorseRepresentations() method
+			string[] words = new string[] { "rwjje", "aittjje", "auyyn", "lqtktn", "lmjwn" };
+
+			sw.Start();
+			int count1 = UniqueMorseRepresentations(words);
+			sw.Stop();
+			Console.WriteLine(sw.Elapsed);
+			Console.WriteLine(count1); // 1
 		}
 
-	// Reverses an integer
-	public static int Reverse(int x)
+
+		// Takes in a array of strings and returns the number of distinct representations of all the strings in Morse code.
+		// A "representation" is defined as a concatenation of the Morse code values of all the individual letters in a string.
+		public static int UniqueMorseRepresentations(string[] words)
 		{
-			if (x > int.MaxValue || x < int.MinValue) return 0;
-			string intToStr = x.ToString();
-			if (intToStr.Length == 1 || (intToStr.Length == 2 && intToStr[0] == '-')) return x;
+			string[] code = new string[] { ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.." };
+			//char[] alphabet = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
-			char[] charArr = intToStr.ToCharArray();
+			HashSet<string> set = new HashSet<string>();
 
-			char temp;
-			int counter = (charArr[0] == '-') ? 1 : 0;
-			for (int i = charArr.Length - 1; i > 0; i--)
+			foreach (string word in words)
 			{
-				if (counter > i) break;
-				temp = charArr[i];
-				charArr[i] = charArr[counter];
-				charArr[counter] = temp;
-				counter++;
+				StringBuilder sb = new StringBuilder();
+				foreach (char letter in word)
+				{
+					//int idx = Array.IndexOf(alphabet, letter);
+					//sb.Append(code[idx]);
+					sb.Append(code[letter - 97]); // Faster and less memory-intensive than the lines commented out above
+				}
+				set.Add(sb.ToString()); // No if stmt needed here, since hashset ignores duplicate entries
 			}
-			string str = new string(charArr);
-			return int.TryParse(str, out int intFromStr) ? intFromStr : 0;
+
+			return set.Count;
 		}
+
+
+		// Converts any uppercase characters in a string to lowercase
+		public static string ToLowerCase(string str)
+		{
+			char[] chars = str.ToCharArray();
+			for (int i = 0; i < chars.Length; i++)
+			{
+				if (Char.IsUpper(chars[i]))
+				{
+					chars[i] = Char.ToLower(chars[i]);
+				}
+			}
+			return new string(chars);
+		}
+
 
 		// Static field for use in RangeSumBST() method
 		public static int sum;
@@ -112,16 +138,29 @@ namespace Scratchpad
 
 			}
 		}
-                
-                public static string ToLowerCase(string str) {
-                    char[] chars = str.ToCharArray();
-                    for (int i = 0; i < chars.Length; i++) {
-                        if (Char.IsUpper(chars[i])) {
-                            chars[i] = Char.ToLower(chars[i]);
-                        }
-                    }
-                    return new string(chars);
-                }
-            }
+
+
+		// Reverses an integer
+		public static int Reverse(int x)
+		{
+			if (x > int.MaxValue || x < int.MinValue) return 0;
+			string intToStr = x.ToString();
+			if (intToStr.Length == 1 || (intToStr.Length == 2 && intToStr[0] == '-')) return x;
+
+			char[] charArr = intToStr.ToCharArray();
+
+			char temp;
+			int counter = (charArr[0] == '-') ? 1 : 0;
+			for (int i = charArr.Length - 1; i > 0; i--)
+			{
+				if (counter > i) break;
+				temp = charArr[i];
+				charArr[i] = charArr[counter];
+				charArr[counter] = temp;
+				counter++;
+			}
+			string str = new string(charArr);
+			return int.TryParse(str, out int intFromStr) ? intFromStr : 0;
+		}
 	}
 }
