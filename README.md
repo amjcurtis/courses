@@ -1,2 +1,2 @@
 # Courses
-Repo for coursework and self-directed learning
+Repo for tutorials, coursework for online classes, and self-directed learning
