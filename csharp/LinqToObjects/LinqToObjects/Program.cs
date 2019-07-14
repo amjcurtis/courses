@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using AndrewsUtilityCode.Classes;
 
 namespace LinqToObjects
@@ -111,7 +112,7 @@ namespace LinqToObjects
 			// Combine LINQ with Regular Expressions
 			///////////////////////////////////////////
 
-			Console.WriteLine("COMBINE LINQ WITH REGEXES");
+			Console.WriteLine("\nCOMBINE LINQ WITH REGEXES");
 
 			string startFolder = @"C:\Program Files (x86)\Microsoft Visual Studio\2017";
 
@@ -211,6 +212,25 @@ namespace LinqToObjects
 														   .OrderBy(n => n);
 
 			Output.PrintQueryResult(nameMatchQuery, $"Concat and take unique based on last name match \"{nameMatch}\":");
+
+			///////////////////////////////////////////
+			// Join content from dissimilar files containing related info
+			///////////////////////////////////////////
+
+			Console.WriteLine("\nJOIN CONTENT FROM DISSIMILAR FILES ON COMMON FIELD");
+
+			string[] names = System.IO.File.ReadAllLines(@"../../../names.csv");
+			string[] scores = System.IO.File.ReadAllLines(@"../../../scores.csv");
+
+			// Join dissimilar spreadsheets on common ID
+			IEnumerable<string> scoreQuery1 = from name in names
+											  let nameFields = name.Split(',')
+											  from id in scores
+											  let scoreFields = id.Split(',')
+											  where nameFields[2] == scoreFields[0]
+											  select nameFields[0] + "," + scoreFields[1] + "," + scoreFields[2] + "," + scoreFields[3] + "," + scoreFields[4];
+
+			Output.PrintQueryResult(scoreQuery1, $"TOTAL NAMES IN LIST: {scoreQuery1.Count()}");
 		}
 
 		// Method for use with LINQ + Regex query
