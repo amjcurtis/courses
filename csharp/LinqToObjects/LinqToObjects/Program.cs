@@ -223,10 +223,10 @@ namespace LinqToObjects
 			string[] scores = System.IO.File.ReadAllLines(@"../../../scores.csv");
 
 			// Join dissimilar spreadsheets on common ID
-			IEnumerable<string> scoreQuery1 = from name in names.Skip(1) // Skip header row
-											  let nameFields = name.Split(',')
+			IEnumerable<string> scoreQuery1 = from name in names.Skip(1)	   // Skip header row of first file
+											  let nameFields = name.Split(',') // Split row into cells
 											  from id in scores
-											  let scoreFields = id.Split(',')
+											  let scoreFields = id.Split(',')  // Split row into cells
 											  where nameFields[2] == scoreFields[0]
 											  select nameFields[0] + "," + scoreFields[1] + "," + scoreFields[2] + "," + scoreFields[3] + "," + scoreFields[4];
 
@@ -249,6 +249,23 @@ namespace LinqToObjects
 			{
 				Console.WriteLine(str);
 			}
+
+			///////////////////////////////////////////
+			// Reorder fields of a delimited file
+			///////////////////////////////////////////
+
+			Console.WriteLine("\nREORDER FIELDS OF A DELIMITED FILE");
+
+			string[] lines = System.IO.File.ReadAllLines(@"../../../names.csv");
+
+			IEnumerable<string> reorderingQuery = from line in lines.Skip(1) // Skip header row
+												  let cell = line.Split(',')
+												  orderby cell[2]
+												  select cell[2] + "," + cell[1] + " " + cell[0];
+
+			System.IO.File.WriteAllLines(@"../../../names_reordered.csv", reorderingQuery.ToArray());
+
+			Console.WriteLine("names_reordered.csv written to disk");
 		}
 
 		/// <summary>
