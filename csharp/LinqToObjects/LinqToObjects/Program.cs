@@ -231,9 +231,31 @@ namespace LinqToObjects
 											  select nameFields[0] + "," + scoreFields[1] + "," + scoreFields[2] + "," + scoreFields[3] + "," + scoreFields[4];
 
 			Output.PrintQueryResult(scoreQuery1, $"TOTAL NAMES IN LIST: {scoreQuery1.Count()}");
+
+			///////////////////////////////////////////
+			// Sort/filter text data by word or field
+			///////////////////////////////////////////
+
+			Console.WriteLine("\nSORT/FILTER TEXT DATA BY WORD OR FIELD");
+
+			scores = System.IO.File.ReadAllLines(@"../../../names.csv");
+			scores = scores.Skip(1).ToArray(); // Skip header row
+
+			int sortField = 2; // Try any value 0-4
+
+			Console.WriteLine("Sorted highest to lowest by field [{0}]", sortField);
+
+			foreach (string str in RunQuery(scores, sortField))
+			{
+				Console.WriteLine(str);
+			}
 		}
 
-		// Method for use with LINQ + Regex query
+		/// <summary>
+		/// Method for use with LINQ + Regex query
+		/// </summary>
+		/// <param name="path">Filepath as string.</param>
+		/// <returns>List of files.</returns>
 		public static IEnumerable<System.IO.FileInfo> GetFiles(string path)
 		{
 			if (!System.IO.Directory.Exists(path))
@@ -251,6 +273,22 @@ namespace LinqToObjects
 			}
 
 			return files;
+		}
+
+		/// <summary>
+		/// Returns an enumerable query.
+		/// </summary>
+		/// <param name="source">Data source that implements IEnumerable.</param>
+		/// <param name="num">Integer value.</param>
+		/// <returns>Returns query itself, not query results.</returns>
+		public static IEnumerable<string> RunQuery(IEnumerable<string> source, int num)
+		{
+			var query = from line in source
+						let fields = line.Split(',')
+						orderby fields[num] descending
+						select line;
+
+			return query;
 		}
 	}
 }
