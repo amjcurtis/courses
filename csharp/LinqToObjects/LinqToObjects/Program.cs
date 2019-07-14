@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using AndrewsUtilityCode.Classes;
 
 namespace LinqToObjects
@@ -111,7 +112,7 @@ namespace LinqToObjects
 			// Combine LINQ with Regular Expressions
 			///////////////////////////////////////////
 
-			Console.WriteLine("COMBINE LINQ WITH REGEXES");
+			Console.WriteLine("\nCOMBINE LINQ WITH REGEXES");
 
 			string startFolder = @"C:\Program Files (x86)\Microsoft Visual Studio\2017";
 
@@ -211,9 +212,67 @@ namespace LinqToObjects
 														   .OrderBy(n => n);
 
 			Output.PrintQueryResult(nameMatchQuery, $"Concat and take unique based on last name match \"{nameMatch}\":");
+
+			///////////////////////////////////////////
+			// Join content from dissimilar files containing related info
+			///////////////////////////////////////////
+
+			Console.WriteLine("\nJOIN CONTENT FROM DISSIMILAR FILES ON COMMON FIELD");
+
+			string[] names = System.IO.File.ReadAllLines(@"../../../names.csv");
+			string[] scores = System.IO.File.ReadAllLines(@"../../../scores.csv");
+
+			// Join dissimilar spreadsheets on common ID
+			IEnumerable<string> scoreQuery1 = from name in names.Skip(1)	   // Skip header row of first file
+											  let nameFields = name.Split(',') // Split row into cells
+											  from id in scores
+											  let scoreFields = id.Split(',')  // Split row into cells
+											  where nameFields[2] == scoreFields[0]
+											  select nameFields[0] + "," + scoreFields[1] + "," + scoreFields[2] + "," + scoreFields[3] + "," + scoreFields[4];
+
+			Output.PrintQueryResult(scoreQuery1, $"TOTAL NAMES IN LIST: {scoreQuery1.Count()}");
+
+			///////////////////////////////////////////
+			// Sort/filter text data by word or field
+			///////////////////////////////////////////
+
+			Console.WriteLine("\nSORT/FILTER TEXT DATA BY WORD OR FIELD");
+
+			scores = System.IO.File.ReadAllLines(@"../../../names.csv");
+			scores = scores.Skip(1).ToArray(); // Skip header row
+
+			int sortField = 2; // Try any value 0-4
+
+			Console.WriteLine("Sorted highest to lowest by field [{0}]", sortField);
+
+			foreach (string str in RunQuery(scores, sortField))
+			{
+				Console.WriteLine(str);
+			}
+
+			///////////////////////////////////////////
+			// Reorder fields of a delimited file
+			///////////////////////////////////////////
+
+			Console.WriteLine("\nREORDER FIELDS OF A DELIMITED FILE");
+
+			string[] lines = System.IO.File.ReadAllLines(@"../../../names.csv");
+
+			IEnumerable<string> reorderingQuery = from line in lines.Skip(1) // Skip header row
+												  let cell = line.Split(',')
+												  orderby cell[2]
+												  select cell[2] + "," + cell[1] + " " + cell[0];
+
+			System.IO.File.WriteAllLines(@"../../../names_reordered.csv", reorderingQuery.ToArray());
+
+			Console.WriteLine("names_reordered.csv written to disk");
 		}
 
-		// Method for use with LINQ + Regex query
+		/// <summary>
+		/// Method for use with LINQ + Regex query
+		/// </summary>
+		/// <param name="path">Filepath as string.</param>
+		/// <returns>List of files.</returns>
 		public static IEnumerable<System.IO.FileInfo> GetFiles(string path)
 		{
 			if (!System.IO.Directory.Exists(path))
@@ -231,6 +290,22 @@ namespace LinqToObjects
 			}
 
 			return files;
+		}
+
+		/// <summary>
+		/// Returns an enumerable query.
+		/// </summary>
+		/// <param name="source">Data source that implements IEnumerable.</param>
+		/// <param name="num">Integer value.</param>
+		/// <returns>Returns query itself, not query results.</returns>
+		public static IEnumerable<string> RunQuery(IEnumerable<string> source, int num)
+		{
+			var query = from line in source
+						let fields = line.Split(',')
+						orderby fields[num] descending
+						select line;
+
+			return query;
 		}
 	}
 }
