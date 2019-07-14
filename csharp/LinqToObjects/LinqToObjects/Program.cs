@@ -223,7 +223,7 @@ namespace LinqToObjects
 			string[] scores = System.IO.File.ReadAllLines(@"../../../scores.csv");
 
 			// Join dissimilar spreadsheets on common ID
-			IEnumerable<string> scoreQuery1 = from name in names
+			IEnumerable<string> scoreQuery1 = from name in names.Skip(1) // Skip header row
 											  let nameFields = name.Split(',')
 											  from id in scores
 											  let scoreFields = id.Split(',')
