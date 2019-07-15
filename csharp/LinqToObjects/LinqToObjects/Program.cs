@@ -266,6 +266,38 @@ namespace LinqToObjects
 			System.IO.File.WriteAllLines(@"../../../names_reordered.csv", reorderingQuery.ToArray());
 
 			Console.WriteLine("names_reordered.csv written to disk");
+
+			///////////////////////////////////////////
+			// Populate Object Collections from Multiple Sources
+			///////////////////////////////////////////
+
+			Console.WriteLine("\nPOPULATE OBJECT COLLECTIONS FROM MULTIPLE SOURCES");
+
+			// Data sources
+			names = System.IO.File.ReadAllLines(@"../../../names.csv");
+			scores = System.IO.File.ReadAllLines(@"../../../scores.csv");
+
+			IEnumerable<Student> queryNamesScores = from nameLine in names.Skip(1)
+													let splitName = nameLine.Split(',')
+													from scoreLine in scores.Skip(1)
+													let splitScore = scoreLine.Split(',')
+													where Convert.ToInt32(splitName[2]) == Convert.ToInt32(splitScore[0])
+													select new Student()
+													{
+														FirstName = splitName[1],
+														LastName = splitName[0],
+														ID = Convert.ToInt32(splitName[2]),
+														ExamScores = (from scoreAsText in splitScore.Skip(1) // Skip header row
+																	  select Convert.ToInt32(scoreAsText))
+																	  .ToList()
+													};
+
+			List<Student> students = queryNamesScores.ToList();
+
+			foreach (Student stud in students)
+			{
+				Console.WriteLine("Average score of {0} {1} is {2}.", stud.FirstName, stud.LastName, stud.ExamScores.Average());
+			}
 		}
 
 		/// <summary>
@@ -307,5 +339,14 @@ namespace LinqToObjects
 
 			return query;
 		}
+	}
+
+	// Class to serve as data model for populating object collections from mult sources
+	public class Student
+	{
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
+		public int ID { get; set; }
+		public List<int> ExamScores { get; set; }
 	}
 }
