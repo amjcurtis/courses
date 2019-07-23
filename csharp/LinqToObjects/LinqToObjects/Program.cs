@@ -47,15 +47,15 @@ namespace LinqToObjects
 			Console.WriteLine("\nQUERY FOR SENTENCES CONTAINING SPECIFIED SETS OF WORDS\n");
 
 			string text1 = @"Historically, the world of data and the world of objects " +
-		@"have not been well integrated. Programmers work in C# or Visual Basic " +
-		@"and also in SQL or XQuery. On the one side are concepts such as classes, " +
-		@"objects, fields, inheritance, and .NET Framework APIs. On the other side " +
-		@"are tables, columns, rows, nodes, and separate languages for dealing with " +
-		@"them. Data types often require translation between the two worlds; there are " +
-		@"different standard functions. Because the object world has no notion of query, a " +
-		@"query can only be represented as a string without compile-time type checking or " +
-		@"IntelliSense support in the IDE. Transferring data from SQL tables or XML trees to " +
-		@"objects in memory is often tedious and error-prone.";
+				@"have not been well integrated. Programmers work in C# or Visual Basic " +
+				@"and also in SQL or XQuery. On the one side are concepts such as classes, " +
+				@"objects, fields, inheritance, and .NET Framework APIs. On the other side " +
+				@"are tables, columns, rows, nodes, and separate languages for dealing with " +
+				@"them. Data types often require translation between the two worlds; there are " +
+				@"different standard functions. Because the object world has no notion of query, a " +
+				@"query can only be represented as a string without compile-time type checking or " +
+				@"IntelliSense support in the IDE. Transferring data from SQL tables or XML trees to " +
+				@"objects in memory is often tedious and error-prone.";
 
 			// Split text block into sentences
 			string[] sentences = text1.Split(new char[] { '.', '?', '!' });
@@ -277,27 +277,30 @@ namespace LinqToObjects
 			names = System.IO.File.ReadAllLines(@"../../../names.csv");
 			scores = System.IO.File.ReadAllLines(@"../../../scores.csv");
 
-			IEnumerable<Student> queryNamesScores = from nameLine in names.Skip(1)
-													let splitName = nameLine.Split(',')
-													from scoreLine in scores.Skip(1)
-													let splitScore = scoreLine.Split(',')
-													where Convert.ToInt32(splitName[2]) == Convert.ToInt32(splitScore[0])
+			IEnumerable<Student> queryNamesScores = from nameLine in names.Skip(1) // Skip first line (header row) in file
+													let splitNameLine = nameLine.Split(',')
+													from scoreLine in scores.Skip(1) // Skip first line (header row) in file
+													let splitScoreLine = scoreLine.Split(',')
+													where Convert.ToInt32(splitNameLine[2]) == Convert.ToInt32(splitScoreLine[0])
 													select new Student()
 													{
-														FirstName = splitName[1],
-														LastName = splitName[0],
-														ID = Convert.ToInt32(splitName[2]),
-														ExamScores = (from scoreAsText in splitScore.Skip(1) // Skip header row
-																	  select Convert.ToInt32(scoreAsText))
+														FirstName = splitNameLine[1],
+														LastName = splitNameLine[0],
+														ID = Convert.ToInt32(splitNameLine[2]),
+														ExamScores = (from scoreAsString in splitScoreLine.Skip(1) // Skip first column (Student ID) in array
+																	  select Convert.ToInt32(scoreAsString))
 																	  .ToList()
 													};
 
 			List<Student> students = queryNamesScores.ToList();
 
+			int i = 1;
 			foreach (Student stud in students)
 			{
-				Console.WriteLine("Average score of {0} {1} is {2}.", stud.FirstName, stud.LastName, stud.ExamScores.Average());
+				Console.WriteLine("{0}. Average score of {1} {2} is {3}.", i, stud.FirstName, stud.LastName, stud.ExamScores.Average());
+				i++;
 			}
+			Console.WriteLine();
 		}
 
 		/// <summary>
