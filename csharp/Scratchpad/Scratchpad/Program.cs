@@ -13,9 +13,9 @@ namespace Scratchpad
 			// Demo how negative int is rendered as string
 			int num = -123;
 			string str = num.ToString();
-			Console.WriteLine(str); // -123
+			Console.WriteLine(str); // "-123"
 			char c = str[0];
-			Console.WriteLine(c); // -
+			Console.WriteLine(c); // '-'
 
 			// Demo method to reverse an integer
 			Console.WriteLine();
@@ -109,14 +109,14 @@ namespace Scratchpad
 		// Static field for use in RangeSumBST() method
 		public static int sum;
 
-		// Sum BST nodes within specified range
+		// Sum BST node values within specified range
 		public static int RangeSumBST(Node<int> root, int L, int R)
 		{
 			PreOrder(root, L, R);
 			return sum;
 		}
 
-		// Recursive preorder tree traversal method
+		// Recursive preorder tree traversal method for use in RangeSumBST() method
 		public static void PreOrder(Node<int> root, int L, int R)
 		{
 			if (root != null)
@@ -127,15 +127,16 @@ namespace Scratchpad
 					Console.WriteLine($"root.Value: {root.Value}");
 					Console.WriteLine($"sum is now {sum}");
 				}
+
 				if (L < root.Value)
 				{
 					PreOrder(root.LeftChild, L, R);
 				}
+
 				if (R > root.Value)
 				{
 					PreOrder(root.RightChild, L, R);
 				}
-
 			}
 		}
 
