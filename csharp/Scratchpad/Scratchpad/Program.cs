@@ -63,8 +63,9 @@ namespace Scratchpad
 			sw.Stop();
 			Console.WriteLine(sw.Elapsed);
 			Console.WriteLine(count1); // 1
+			Console.WriteLine();
 
-			// Demo RemoveOuterParentheses() method
+			// Demo RemoveOuterParentheses() methods
 			string input1 = "(()())(())";
 			string input2 = "(()())(())(()(()))";
 			string input3 = "()()";
@@ -72,45 +73,84 @@ namespace Scratchpad
 			Console.WriteLine($"\"{RemoveOuterParentheses(input1)}\""); // Expect "()()()"
 			Console.WriteLine($"\"{RemoveOuterParentheses(input2)}\""); // Expect "()()()()(())"
 			Console.WriteLine($"\"{RemoveOuterParentheses(input3)}\""); // Expect ""
+			Console.WriteLine();
+
+			Console.WriteLine($"\"{RemoveOuterParenthesesFaster(input1)}\""); // Expect "()()()"
+			Console.WriteLine($"\"{RemoveOuterParenthesesFaster(input2)}\""); // Expect "()()()()(())"
+			Console.WriteLine($"\"{RemoveOuterParenthesesFaster(input3)}\""); // Expect ""
 		}
 
 
 		// Returns string S after removing outermost parentheses of every primitive string in primitive decomposition of S
+		// Assumes S[i] is '(' or ')'
+		// Assumes input is valid parenthesis string
 		public static string RemoveOuterParentheses(string S)
 		{
 			if (string.IsNullOrEmpty(S)) return S; // Handle empty input string
 
-			char[] chars = S.ToCharArray();
-
 			Stack<char> stack = new Stack<char>();
 			StringBuilder sb = new StringBuilder();
 
-			for (int i = 0; i < chars.Length; i++)
+			for (int i = 0; i < S.Length; i++)
 			{
-				if (stack.Count == 0) // If true, then chars[i] is an outermost opening paren
+				if (stack.Count == 0) // If true, then S[i] is an outermost opening paren
 				{
-					stack.Push(chars[i]);
+					stack.Push(S[i]);
 				}
-				else // chars[i] is an inner paren
+				else // S[i] is an inner paren
 				{
-					if (chars[i] == '(')
+					if (S[i] == '(')
 					{
-						stack.Push(chars[i]);
-						sb.Append(chars[i]);
+						stack.Push(S[i]);
+						sb.Append(S[i]);
 					}
-					else if (chars[i] == ')')
+					else // Assume S[i] is always ')' if not '('
 					{
 						if (stack.Count != 1) // If paren isn't last one left on stack (i.e. isn't an outermost paren)
 						{
-							sb.Append(chars[i]);
+							sb.Append(S[i]);
 						}
 						stack.Pop();
 					}
 				}
 			}
 
-			string newS = sb.ToString();
-			return newS;
+			return sb.ToString();
+		}
+
+		// More memory-efficient version of RemoveOuterParentheses() method
+		public static string RemoveOuterParenthesesFaster(string S)
+		{
+			if (string.IsNullOrEmpty(S)) return S; // Handle empty input string
+
+			int count = 0; // Substitute for a stack
+			StringBuilder sb = new StringBuilder();
+
+			for (int i = 0; i < S.Length; i++)
+			{
+				if (count == 0) // If true, then S[i] is an outermost opening paren
+				{
+					count++;
+				}
+				else // S[i] is an inner paren
+				{
+					if (S[i] == '(')
+					{
+						count++;
+						sb.Append(S[i]);
+					}
+					else // Assume S[i] is always ')' if not '('
+					{
+						if (count != 1) // If paren isn't an outermost paren
+						{
+							sb.Append(S[i]);
+						}
+						count--;
+					}
+				}
+			}
+
+			return sb.ToString();
 		}
 
 		// Takes in a array of strings and returns the number of distinct representations of all the strings in Morse code.
