@@ -24,7 +24,7 @@ namespace Scratchpad
 
 			int num2 = 456;
 			int revdInt2 = Reverse(num2);
-			
+
 			int num3 = 78;
 			Stopwatch sw = Stopwatch.StartNew();
 			int revdInt3 = Reverse(num3);
@@ -39,7 +39,7 @@ namespace Scratchpad
 
 			int num5 = int.MinValue;
 			int revdInt5 = Reverse(num5);
-			
+
 			// Demo RangeSumBST() method
 			BinarySearchTree<int> bst = new BinarySearchTree<int>();
 			bst.Root = new Node<int>(10);
@@ -63,11 +63,20 @@ namespace Scratchpad
 			sw.Stop();
 			Console.WriteLine(sw.Elapsed);
 			Console.WriteLine(count1); // 1
+
+			// Demo RemoveOuterParentheses() method
+			string input1 = "(()())(())";
+			string input2 = "(()())(())(()(()))";
+			string input3 = "()()";
+
+			Console.WriteLine($"\"{RemoveOuterParentheses(input1)}\""); // Expect "()()()"
+			Console.WriteLine($"\"{RemoveOuterParentheses(input2)}\""); // Expect "()()()()(())"
+			Console.WriteLine($"\"{RemoveOuterParentheses(input3)}\""); // Expect ""
 		}
 
 
 		// Returns string S after removing outermost parentheses of every primitive string in primitive decomposition of S
-		public string RemoveOuterParentheses(string S)
+		public static string RemoveOuterParentheses(string S)
 		{
 			if (string.IsNullOrEmpty(S)) return S; // Handle empty input string
 
@@ -82,66 +91,25 @@ namespace Scratchpad
 				{
 					stack.Push(chars[i]);
 				}
-				else
+				else // chars[i] is an inner paren
 				{
-					if (chars[i] == '(' && stack.Count)
+					if (chars[i] == '(')
 					{
 						stack.Push(chars[i]);
 						sb.Append(chars[i]);
 					}
 					else if (chars[i] == ')')
 					{
-						stack.Pop();
-						if (stack.Count != 1) // If only paren left on stack is not an outermost one
+						if (stack.Count != 1) // If paren isn't last one left on stack (i.e. isn't an outermost paren)
 						{
 							sb.Append(chars[i]);
 						}
+						stack.Pop();
 					}
 				}
 			}
 
-			//for (int i = 0; i < chars.Length; i++)
-			//{
-			//	if (chars[i] == '(')
-			//	{
-			//		stack.Push(chars[i]);
-			//		Console.WriteLine($"Top of stack: {stack.Peek()}");
-			//		while (i < chars.Length - 1) // Avoid IndexOutOfRange exception
-			//		{
-			//			if (chars[i + 1] != '(' && stack.Count )
-			//			{
-			//				sb.Append(chars[i]);
-			//			}
-			//		}
-			//	}
-			//	else // Can assume chars[i] will always be ')' if it's not '('
-			//	{
-			//		if (stack.Count != 0) // Check if stack is empty
-			//		{
-			//			stack.Pop();
-
-			//			if (stack.Count == 1)
-			//			{
-
-			//			}
-
-			//			while (i < chars.Length - 1) // Avoid IndexOutOfRange exception
-			//			{
-			//				if (chars[i + 1] != ')' /*&& stack.Count*/)
-			//				{
-			//					sb.Append(chars[i]);
-			//				}
-			//			}
-			//		}
-			//		else
-			//		{
-
-			//		}
-			//	}
-			//}
-
 			string newS = sb.ToString();
-
 			return newS;
 		}
 
