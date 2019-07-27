@@ -66,6 +66,85 @@ namespace Scratchpad
 		}
 
 
+		// Returns string S after removing outermost parentheses of every primitive string in primitive decomposition of S
+		public string RemoveOuterParentheses(string S)
+		{
+			if (string.IsNullOrEmpty(S)) return S; // Handle empty input string
+
+			char[] chars = S.ToCharArray();
+
+			Stack<char> stack = new Stack<char>();
+			StringBuilder sb = new StringBuilder();
+
+			for (int i = 0; i < chars.Length; i++)
+			{
+				if (stack.Count == 0) // If true, then chars[i] is an outermost opening paren
+				{
+					stack.Push(chars[i]);
+				}
+				else
+				{
+					if (chars[i] == '(' && stack.Count)
+					{
+						stack.Push(chars[i]);
+						sb.Append(chars[i]);
+					}
+					else if (chars[i] == ')')
+					{
+						stack.Pop();
+						if (stack.Count != 1) // If only paren left on stack is not an outermost one
+						{
+							sb.Append(chars[i]);
+						}
+					}
+				}
+			}
+
+			//for (int i = 0; i < chars.Length; i++)
+			//{
+			//	if (chars[i] == '(')
+			//	{
+			//		stack.Push(chars[i]);
+			//		Console.WriteLine($"Top of stack: {stack.Peek()}");
+			//		while (i < chars.Length - 1) // Avoid IndexOutOfRange exception
+			//		{
+			//			if (chars[i + 1] != '(' && stack.Count )
+			//			{
+			//				sb.Append(chars[i]);
+			//			}
+			//		}
+			//	}
+			//	else // Can assume chars[i] will always be ')' if it's not '('
+			//	{
+			//		if (stack.Count != 0) // Check if stack is empty
+			//		{
+			//			stack.Pop();
+
+			//			if (stack.Count == 1)
+			//			{
+
+			//			}
+
+			//			while (i < chars.Length - 1) // Avoid IndexOutOfRange exception
+			//			{
+			//				if (chars[i + 1] != ')' /*&& stack.Count*/)
+			//				{
+			//					sb.Append(chars[i]);
+			//				}
+			//			}
+			//		}
+			//		else
+			//		{
+
+			//		}
+			//	}
+			//}
+
+			string newS = sb.ToString();
+
+			return newS;
+		}
+
 		// Takes in a array of strings and returns the number of distinct representations of all the strings in Morse code.
 		// A "representation" is defined as a concatenation of the Morse code values of all the individual letters in a string.
 		public static int UniqueMorseRepresentations(string[] words)
@@ -97,9 +176,9 @@ namespace Scratchpad
 			char[] chars = str.ToCharArray();
 			for (int i = 0; i < chars.Length; i++)
 			{
-				if (Char.IsUpper(chars[i]))
+				if (char.IsUpper(chars[i]))
 				{
-					chars[i] = Char.ToLower(chars[i]);
+					chars[i] = char.ToLower(chars[i]);
 				}
 			}
 			return new string(chars);
