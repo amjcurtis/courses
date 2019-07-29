@@ -78,6 +78,26 @@ namespace Scratchpad
 			Console.WriteLine($"\"{RemoveOuterParenthesesFaster(input1)}\""); // Expect "()()()"
 			Console.WriteLine($"\"{RemoveOuterParenthesesFaster(input2)}\""); // Expect "()()()()(())"
 			Console.WriteLine($"\"{RemoveOuterParenthesesFaster(input3)}\""); // Expect ""
+
+			// Demo IsUnivalTree
+			// Instantiate univalued tree
+			BinaryTree<int> binTree1 = new BinaryTree<int>();
+			binTree1.Root = new Node<int>(1);
+			binTree1.Root.LeftChild = new Node<int>(1);
+			binTree1.Root.RightChild = new Node<int>(1);
+			binTree1.Root.LeftChild.LeftChild = new Node<int>(1);
+			binTree1.Root.LeftChild.RightChild = new Node<int>(1);
+			binTree1.Root.RightChild.RightChild = new Node<int>(1);
+			Console.WriteLine($"Is binTree1 univalued: {IsUnivalTree(binTree1.Root)}"); 
+
+			// Instantiate non-univalued tree
+			BinaryTree<int> binTree2 = new BinaryTree<int>();
+			binTree2.Root = new Node<int>(2);
+			binTree2.Root.LeftChild = new Node<int>(2);
+			binTree2.Root.RightChild = new Node<int>(3);
+			binTree2.Root.LeftChild.LeftChild = new Node<int>(2);
+			binTree2.Root.LeftChild.RightChild = new Node<int>(2);
+			Console.WriteLine($"Is binTree2 univalued: {IsUnivalTree(binTree2.Root)}"); 
 		}
 
 
@@ -253,31 +273,35 @@ namespace Scratchpad
 		}
 
 
-		public bool IsUnivalTree(TreeNode root)
+		// Checks whether binary tree is univalued, i.e. whether every node in tree has same value
+		public static bool IsUnivalTree(Node<int> root)
 		{
-			int val = root.val;
-			return Preorder(root);
+			int val = root.Value;
+			bool flag = true;
+			Preorder(root);
+			return flag;
 
-			bool Preorder(TreeNode node)
+			// Internal recursive traversal method
+			void Preorder(Node<int> node)
 			{
-				if (node.val == val)
+				Console.WriteLine(node.Value);
+
+				if (node.Value != val)
 				{
-					return true;
-				}
-				else
-				{
-					return false;
+					flag = false;
 				}
 
-				if (node.left != null)
+				if (node.LeftChild != null)
 				{
-					Preorder(node.left);
+					Preorder(node.LeftChild);
 				}
 
-				if (node.right != null)
+				if (node.RightChild != null)
 				{
-					Preorder(node.right);
+					Preorder(node.RightChild);
 				}
+
 			}
 		}
+	}
 }
