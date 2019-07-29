@@ -118,6 +118,7 @@ namespace Scratchpad
 			return sb.ToString();
 		}
 
+
 		// More memory-efficient version of RemoveOuterParentheses() method
 		public static string RemoveOuterParenthesesFaster(string S)
 		{
@@ -250,5 +251,33 @@ namespace Scratchpad
 			string str = new string(charArr);
 			return int.TryParse(str, out int intFromStr) ? intFromStr : 0;
 		}
-	}
+
+
+		public bool IsUnivalTree(TreeNode root)
+		{
+			int val = root.val;
+			return Preorder(root);
+
+			bool Preorder(TreeNode node)
+			{
+				if (node.val == val)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+
+				if (node.left != null)
+				{
+					Preorder(node.left);
+				}
+
+				if (node.right != null)
+				{
+					Preorder(node.right);
+				}
+			}
+		}
 }
