@@ -12,15 +12,17 @@ namespace Scratchpad
 		static void Main(string[] args)
 		{
 			// Demo how negative int is rendered as string
+			Console.WriteLine("RENDER NEGATIVE INTEGER AS STRING");
+
 			int num = -123;
 			string str = num.ToString();
-			Console.WriteLine(str); // "-123"
+			Console.WriteLine($"Int as str: {str}"); // "-123"
 			char c = str[0];
-			Console.WriteLine(c); // '-'
+			Console.WriteLine($"str[0]: {c}"); // '-'
 
 
 			// Demo method to reverse an integer
-			Console.WriteLine();
+			Console.WriteLine("\nREVERSE AN INTEGER");
 			int num1 = -123;
 			int revdInt = Reverse(num1);
 
@@ -44,6 +46,8 @@ namespace Scratchpad
 
 
 			// Demo RangeSumBST() method
+			Console.WriteLine("SUM BINARY SEARCH TREE NODE VALUES IN SPECIFIED RANGE");
+
 			BinarySearchTree<int> bst = new BinarySearchTree<int>();
 			bst.Root = new Node<int>(10);
 			bst.Root.LeftChild = new Node<int>(5);
@@ -55,22 +59,21 @@ namespace Scratchpad
 			bst.Root.LeftChild.RightChild.LeftChild = new Node<int>(6);
 
 			int sum = RangeSumBST(bst.Root, 6, 10);
-			Console.WriteLine($"Final sum: {sum}"); // 23
-			Console.WriteLine();
-
+			Console.WriteLine($"Final sum: {sum}\n"); // 23
+			
 
 			// Demo UniqueMorseRepresentations() method
-			string[] words = new string[] { "rwjje", "aittjje", "auyyn", "lqtktn", "lmjwn" };
+			Console.WriteLine("UNIQUE MORSE CODE REPRESENTATIONS");
 
-			sw.Start();
+			string[] words = new string[] { "rwjje", "attjje", "auyyn", "lqtktn", "lmjwn" };
+
 			int count1 = UniqueMorseRepresentations(words);
-			sw.Stop();
-			Console.WriteLine(sw.Elapsed);
-			Console.WriteLine(count1); // 1
-			Console.WriteLine();
+			Console.WriteLine($"Input string contains {{0}} unique Morse code representation(s).\n", count1);
 
 
 			// Demo RemoveOuterParentheses() methods
+			Console.WriteLine("REMOVE OUTER PARENTHESES");
+
 			string input1 = "(()())(())";
 			string input2 = "(()())(())(()(()))";
 			string input3 = "()()";
@@ -82,10 +85,12 @@ namespace Scratchpad
 
 			Console.WriteLine($"\"{RemoveOuterParenthesesFaster(input1)}\""); // Expect "()()()"
 			Console.WriteLine($"\"{RemoveOuterParenthesesFaster(input2)}\""); // Expect "()()()()(())"
-			Console.WriteLine($"\"{RemoveOuterParenthesesFaster(input3)}\""); // Expect ""
+			Console.WriteLine($"\"{RemoveOuterParenthesesFaster(input3)}\"\n"); // Expect ""
 
 
 			// Demo IsUnivalTree
+			Console.WriteLine("IS A GIVEN BINARY TREE A UNIVALUED TREE?");
+
 			// Instantiate univalued tree
 			BinaryTree<int> binTree1 = new BinaryTree<int>();
 			binTree1.Root = new Node<int>(1);
@@ -94,7 +99,7 @@ namespace Scratchpad
 			binTree1.Root.LeftChild.LeftChild = new Node<int>(1);
 			binTree1.Root.LeftChild.RightChild = new Node<int>(1);
 			binTree1.Root.RightChild.RightChild = new Node<int>(1);
-			Console.WriteLine($"Is binTree1 univalued: {IsUnivalTree(binTree1.Root)}"); 
+			Console.WriteLine($"Is binTree1 univalued? {IsUnivalTree(binTree1.Root)}"); 
 
 			// Instantiate non-univalued tree
 			BinaryTree<int> binTree2 = new BinaryTree<int>();
@@ -103,10 +108,12 @@ namespace Scratchpad
 			binTree2.Root.RightChild = new Node<int>(3);
 			binTree2.Root.LeftChild.LeftChild = new Node<int>(2);
 			binTree2.Root.LeftChild.RightChild = new Node<int>(2);
-			Console.WriteLine($"Is binTree2 univalued: {IsUnivalTree(binTree2.Root)}\n"); 
+			Console.WriteLine($"Is binTree2 univalued? {IsUnivalTree(binTree2.Root)}\n");
 
 
 			// Demo method to defang IP address
+			Console.WriteLine("DEFANG AN IP ADDRESS");
+
 			string decimalIP = "192.0.2.235";
 			Console.WriteLine($"DECIMAL IP\nOriginal: {decimalIP}");
 			Console.WriteLine($"Defanged: {DefangIPAddr(decimalIP)}\n");
@@ -244,7 +251,7 @@ namespace Scratchpad
 				{
 					//int idx = Array.IndexOf(alphabet, letter);
 					//sb.Append(code[idx]);
-					sb.Append(code[letter - 97]); // Faster and less memory-intensive than the lines commented out above
+					sb.Append(code[char.ToLower(letter) - 97]); // Faster and less memory-intensive than the lines commented out above
 				}
 				set.Add(sb.ToString()); // No if stmt needed here, since hashset ignores duplicate entries
 			}
