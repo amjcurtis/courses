@@ -17,6 +17,7 @@ namespace Scratchpad
 			char c = str[0];
 			Console.WriteLine(c); // '-'
 
+
 			// Demo method to reverse an integer
 			Console.WriteLine();
 			int num1 = -123;
@@ -40,6 +41,7 @@ namespace Scratchpad
 			int num5 = int.MinValue;
 			int revdInt5 = Reverse(num5);
 
+
 			// Demo RangeSumBST() method
 			BinarySearchTree<int> bst = new BinarySearchTree<int>();
 			bst.Root = new Node<int>(10);
@@ -55,6 +57,7 @@ namespace Scratchpad
 			Console.WriteLine($"Final sum: {sum}"); // 23
 			Console.WriteLine();
 
+
 			// Demo UniqueMorseRepresentations() method
 			string[] words = new string[] { "rwjje", "aittjje", "auyyn", "lqtktn", "lmjwn" };
 
@@ -64,6 +67,7 @@ namespace Scratchpad
 			Console.WriteLine(sw.Elapsed);
 			Console.WriteLine(count1); // 1
 			Console.WriteLine();
+
 
 			// Demo RemoveOuterParentheses() methods
 			string input1 = "(()())(())";
@@ -78,6 +82,7 @@ namespace Scratchpad
 			Console.WriteLine($"\"{RemoveOuterParenthesesFaster(input1)}\""); // Expect "()()()"
 			Console.WriteLine($"\"{RemoveOuterParenthesesFaster(input2)}\""); // Expect "()()()()(())"
 			Console.WriteLine($"\"{RemoveOuterParenthesesFaster(input3)}\""); // Expect ""
+
 
 			// Demo IsUnivalTree
 			// Instantiate univalued tree
@@ -97,9 +102,40 @@ namespace Scratchpad
 			binTree2.Root.RightChild = new Node<int>(3);
 			binTree2.Root.LeftChild.LeftChild = new Node<int>(2);
 			binTree2.Root.LeftChild.RightChild = new Node<int>(2);
-			Console.WriteLine($"Is binTree2 univalued: {IsUnivalTree(binTree2.Root)}"); 
+			Console.WriteLine($"Is binTree2 univalued: {IsUnivalTree(binTree2.Root)}\n"); 
+
+
+			// Demo method to defang IP address
+			string decimalIP = "192.0.2.235";
+			Console.WriteLine($"DECIMAL IP\nOriginal: {decimalIP}");
+			Console.WriteLine($"Defanged: {DefangIPAddr(decimalIP)}\n");
+
+			string hexIP = "0xC0.0x00.0x02.0xEB";
+			Console.WriteLine($"HEX IP\nOriginal: {hexIP}");
+			Console.WriteLine($"Defanged: {DefangIPAddr(hexIP)}\n");
+
+			string octalIP = "0300.0000.0002.0353";
+			Console.WriteLine($"OCTAL IP\nOriginal: {octalIP}");
+			Console.WriteLine($"Defanged: {DefangIPAddr(octalIP)}\n");
 		}
 
+
+		/// <summary>
+		/// Defangs an IP address that uses dot notation by replacing all '.' characters with "[.]"
+		/// </summary>
+		/// <param name="address">IP address as string.</param>
+		/// <returns>Defanged address string.</returns>
+		public static string DefangIPAddr(string address)
+		{
+			StringBuilder sb = new StringBuilder();
+
+			foreach (char c in address)
+			{
+				sb.Append((c == '.') ? "[.]" : c.ToString());
+			}
+
+			return sb.ToString();
+		}
 
 		// Returns string S after removing outermost parentheses of every primitive string in primitive decomposition of S
 		// Assumes S[i] is '(' or ')'
@@ -138,7 +174,7 @@ namespace Scratchpad
 			return sb.ToString();
 		}
 
-
+	
 		// More memory-efficient version of RemoveOuterParentheses() method
 		public static string RemoveOuterParenthesesFaster(string S)
 		{
@@ -300,7 +336,6 @@ namespace Scratchpad
 				{
 					Preorder(node.RightChild);
 				}
-
 			}
 		}
 	}
