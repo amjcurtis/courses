@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Text.RegularExpressions;
 using BinaryTree.Classes;
 
 namespace Scratchpad
@@ -117,6 +118,14 @@ namespace Scratchpad
 			string octalIP = "0300.0000.0002.0353";
 			Console.WriteLine($"OCTAL IP\nOriginal: {octalIP}");
 			Console.WriteLine($"Defanged: {DefangIPAddr(octalIP)}\n");
+
+			string emptyString = "";
+			Console.WriteLine($"EMPTY STRING\nOriginal: {emptyString}");
+			Console.WriteLine($"Output: {DefangIPAddr(emptyString)}\n");
+
+			string invalidAddress = "000012..123.123";
+			Console.WriteLine($"EMPTY STRING\nOriginal: {invalidAddress}");
+			Console.WriteLine($"Output: {DefangIPAddr(invalidAddress)}\n");
 		}
 
 
@@ -127,6 +136,15 @@ namespace Scratchpad
 		/// <returns>Defanged address string.</returns>
 		public static string DefangIPAddr(string address)
 		{
+			// Validate input
+			Regex regex = new Regex(@"^([\d\w]{1,4}\.){3}[\d\w]{1,4}$");
+
+			if (!regex.IsMatch(address))
+			{
+				Console.WriteLine("Invalid IP address string!");
+				return null;
+			}
+
 			StringBuilder sb = new StringBuilder();
 
 			foreach (char c in address)
