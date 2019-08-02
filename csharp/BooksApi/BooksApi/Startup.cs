@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using BooksApi.Models;
+using BooksApi.Models.Interfaces;
 using Microsoft.Extensions.Options;
 
 namespace BooksApi
@@ -22,13 +18,19 @@ namespace BooksApi
 
 		public IConfiguration Configuration { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
+		// This method gets called by the runtime to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			// Register in the dependency injection container the configuration instance that appsettings.json's BookstoreDatabaseSettings section binds to
+			services.Configure<BookstoreDatabaseSettings>(Configuration.GetSection(nameof(BookstoreDatabaseSettings)));
+
+			// Register IBookstoreDatabaseSettings in DI container with a singleton service lifetime
+			services.AddSingleton<IBookstoreDatabaseSettings>(sp => sp.GetRequiredService<IOptions<BookstoreDatabaseSettings>>().Value);
+
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 		}
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		// This method gets called by the runtime to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 		{
 			if (env.IsDevelopment())
