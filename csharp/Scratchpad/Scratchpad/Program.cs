@@ -329,6 +329,7 @@ namespace Scratchpad
 				charArr[counter] = temp;
 				counter++;
 			}
+
 			string str = new string(charArr);
 			return int.TryParse(str, out int intFromStr) ? intFromStr : 0;
 		}
