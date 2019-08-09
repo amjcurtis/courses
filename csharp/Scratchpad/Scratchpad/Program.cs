@@ -162,9 +162,14 @@ namespace Scratchpad
 			return sb.ToString();
 		}
 
-		// Returns string S after removing outermost parentheses of every primitive string in primitive decomposition of S
-		// Assumes S[i] is '(' or ')'
-		// Assumes input is valid parenthesis string
+
+		/// <summary>
+		/// Returns new version of input string S after removing outermost parentheses of every primitive string in primitive decomposition of S. 
+		/// Assumes S[i] is '(' or ')'. 
+		/// Assumes input is valid parenthesis string.
+		/// </summary>
+		/// <param name="S">Input string.</param>
+		/// <returns>New string containing contents of input string with outer sets of parens removed.</returns>
 		public static string RemoveOuterParentheses(string S)
 		{
 			if (string.IsNullOrEmpty(S)) return S; // Handle empty input string
@@ -199,8 +204,12 @@ namespace Scratchpad
 			return sb.ToString();
 		}
 
-	
-		// More memory-efficient version of RemoveOuterParentheses() method
+
+		/// <summary>
+		/// More memory-efficient version of RemoveOuterParentheses method.
+		/// </summary>
+		/// <param name="S">Input string.</param>
+		/// <returns>New string containing contents of input string with outer sets of parens removed.</returns>
 		public static string RemoveOuterParenthesesFaster(string S)
 		{
 			if (string.IsNullOrEmpty(S)) return S; // Handle empty input string
@@ -223,7 +232,7 @@ namespace Scratchpad
 					}
 					else // Assume S[i] is always ')' if not '('
 					{
-						if (count != 1) // If paren isn't an outermost paren
+						if (count != 1) // I.e. if paren isn't an outermost paren
 						{
 							sb.Append(S[i]);
 						}
@@ -235,8 +244,12 @@ namespace Scratchpad
 			return sb.ToString();
 		}
 
-		// Takes in a array of strings and returns the number of distinct representations of all the strings in Morse code.
-		// A "representation" is defined as a concatenation of the Morse code values of all the individual letters in a string.
+		/// <summary>
+		/// Takes in a array of strings and returns the number of distinct representations of all the strings in Morse code. 
+		/// A "representation" is defined as a concatenation of the Morse code values of all the individual letters in a string.
+		/// </summary>
+		/// <param name="words">Array of strings.</param>
+		/// <returns>Number of unique Morse code representations of the words in the input array.</returns>
 		public static int UniqueMorseRepresentations(string[] words)
 		{
 			string[] code = new string[] { ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.." };
@@ -260,7 +273,11 @@ namespace Scratchpad
 		}
 
 
-		// Converts any uppercase characters in a string to lowercase
+		/// <summary>
+		/// Converts any uppercase characters in a string to lowercase.
+		/// </summary>
+		/// <param name="str">Input string.</param>
+		/// <returns>New string that is a lowercase version of input string.</returns>
 		public static string ToLowerCase(string str)
 		{
 			char[] chars = str.ToCharArray();
@@ -278,14 +295,25 @@ namespace Scratchpad
 		// Static field for use in RangeSumBST() method
 		public static int sum;
 
-		// Sum BST node values within specified range
+		/// <summary>
+		/// Sums binary search tree node values that fall within specified range (inclusive).
+		/// </summary>
+		/// <param name="root">Root node of tree.</param>
+		/// <param name="L">Low boundary of range.</param>
+		/// <param name="R">High boundary of range.</param>
+		/// <returns>Sum of all node values within the specified range.</returns>
 		public static int RangeSumBST(Node<int> root, int L, int R)
 		{
 			PreOrder(root, L, R);
 			return sum;
 		}
 
-		// Recursive preorder tree traversal method for use in RangeSumBST() method
+		/// <summary>
+		/// Recursive preorder tree traversal method for use in RangeSumBST() method
+		/// </summary>
+		/// <param name="root">Tree node to traverse from.</param>
+		/// <param name="L">Low boundary of range.</param>
+		/// <param name="R">High boundary of range.</param>
 		public static void PreOrder(Node<int> root, int L, int R)
 		{
 			if (root != null)
@@ -310,7 +338,11 @@ namespace Scratchpad
 		}
 
 
-		// Reverses an integer
+		/// <summary>
+		/// Reverses an integer (signed or unsigned).
+		/// </summary>
+		/// <param name="x">Integer to reverse.</param>
+		/// <returns>Returns integer reversed, or 0 if integer input is outside min or max int value.</returns>
 		public static int Reverse(int x)
 		{
 			if (x > int.MaxValue || x < int.MinValue) return 0;
@@ -334,7 +366,11 @@ namespace Scratchpad
 		}
 
 
-		// Checks whether binary tree is univalued, i.e. whether every node in tree has same value
+		/// <summary>
+		/// Checks whether binary tree is univalued, i.e. whether every node in tree has same value.
+		/// </summary>
+		/// <param name="root">Root node of tree.</param>
+		/// <returns>Boolean.</returns>
 		public static bool IsUnivalTree(Node<int> root)
 		{
 			int val = root.Value;
