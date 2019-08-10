@@ -60,7 +60,7 @@ namespace Scratchpad
 
 			int sum = RangeSumBST(bst.Root, 6, 10);
 			Console.WriteLine($"Final sum: {sum}\n"); // 23
-			
+
 
 			// Demo UniqueMorseRepresentations() method
 			Console.WriteLine("UNIQUE MORSE CODE REPRESENTATIONS");
@@ -99,7 +99,7 @@ namespace Scratchpad
 			binTree1.Root.LeftChild.LeftChild = new Node<int>(1);
 			binTree1.Root.LeftChild.RightChild = new Node<int>(1);
 			binTree1.Root.RightChild.RightChild = new Node<int>(1);
-			Console.WriteLine($"Is binTree1 univalued? {IsUnivalTree(binTree1.Root)}"); 
+			Console.WriteLine($"Is binTree1 univalued? {IsUnivalTree(binTree1.Root)}");
 
 			// Instantiate non-univalued tree
 			BinaryTree<int> binTree2 = new BinaryTree<int>();
@@ -133,8 +133,60 @@ namespace Scratchpad
 			string invalidAddress = "000012..123.123";
 			Console.WriteLine($"EMPTY STRING\nOriginal: {invalidAddress}");
 			Console.WriteLine($"Output: {DefangIPAddr(invalidAddress)}\n");
+
+
+			// Demo FindNumberOfSharedElements method
+			int[] array1 = { 13, 27, 35, 40, 49, 55, 59 };
+			int[] array2 = { 17, 35, 39, 40, 55, 58, 80 };
+			Console.WriteLine($"Number of shared elements: {FindNumberOfSharedElements(array1, array2)}");
 		}
 
+		/// <summary>
+		/// Given two sorted integer arrays, finds number of elements common to both arrays. 
+		/// Assumes the arrays are same length and each has all distinct elements.
+		/// </summary>
+		/// <param name="sortedArray1">First sorted integer array.</param>
+		/// <param name="sortedArray2">Second sorted integer array.</param>
+		/// <returns>Number of elements contained in both arrays.</returns>
+		public static int FindNumberOfSharedElements(int[] sortedArray1, int[] sortedArray2)
+		{
+			int count = 0;
+
+
+		}
+
+		/// <summary>
+		/// Binary search helper method for FindNumberOfSharedElements.
+		/// </summary>
+		/// <param name="sortedArray">Sorted array of integers.</param>
+		/// <param name="value">Integer value to search for in array.</param>
+		/// <returns>First index where searched value found, else -1 if value not found.</returns>
+		static int BinarySearch(int[] sortedArray, int value)
+		{
+			int min = 0;
+			int max = sortedArray.Length;
+			int mid;
+
+			while (min <= max)
+			{
+				mid = (min + max) / 2;
+
+				if (sortedArray[mid] > value)
+				{
+					max = mid - 1;
+				}
+				else if (sortedArray[mid] < value)
+				{
+					min = mid + 1;
+				}
+				else // I.e. sortedArray[mid] == value
+				{
+					return mid; // First index where value was found
+				}
+			}
+
+			return -1;
+		} 
 
 		/// <summary>
 		/// Defangs an IP address that uses dot notation by replacing all '.' characters with "[.]"
