@@ -138,7 +138,7 @@ namespace Scratchpad
 			// Demo FindNumberOfSharedElements method
 			int[] array1 = { 13, 27, 35, 40, 49, 55, 59 };
 			int[] array2 = { 17, 35, 39, 40, 55, 58, 80 };
-			Console.WriteLine($"Number of shared elements: {FindNumberOfSharedElements(array1, array2)}");
+			//Console.WriteLine($"Number of shared elements: {FindNumberOfSharedElements(array1, array2)}");
 		}
 
 		/// <summary>
@@ -148,12 +148,12 @@ namespace Scratchpad
 		/// <param name="sortedArray1">First sorted integer array.</param>
 		/// <param name="sortedArray2">Second sorted integer array.</param>
 		/// <returns>Number of elements contained in both arrays.</returns>
-		public static int FindNumberOfSharedElements(int[] sortedArray1, int[] sortedArray2)
-		{
-			int count = 0;
+		//public static int FindNumberOfSharedElements(int[] sortedArray1, int[] sortedArray2)
+		//{
+		//	int count = 0;
 
 
-		}
+		//}
 
 		/// <summary>
 		/// Binary search helper method for FindNumberOfSharedElements.
