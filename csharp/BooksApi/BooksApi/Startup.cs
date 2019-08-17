@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using BooksApi.Models;
 using BooksApi.Models.Interfaces;
 using Microsoft.Extensions.Options;
+using BooksApi.Services;
 
 namespace BooksApi
 {
@@ -21,11 +22,15 @@ namespace BooksApi
 		// This method gets called by the runtime to add services to the container
 		public void ConfigureServices(IServiceCollection services)
 		{
-			// Register in the dependency injection container the configuration instance that appsettings.json's BookstoreDatabaseSettings section binds to
+			// Register in the dependency injection (DI) container the configuration instance that appsettings.json's BookstoreDatabaseSettings section binds to
 			services.Configure<BookstoreDatabaseSettings>(Configuration.GetSection(nameof(BookstoreDatabaseSettings)));
 
 			// Register IBookstoreDatabaseSettings in DI container with a singleton service lifetime
 			services.AddSingleton<IBookstoreDatabaseSettings>(sp => sp.GetRequiredService<IOptions<BookstoreDatabaseSettings>>().Value);
+
+			// Register BookService with DI to support constructor injection in consuming classes
+			// Per Mongo Client reuse guidelines, MongoClient should be registered in DI with a singleton service lifetime
+			services.AddSingleton<BookService>();
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 		}
