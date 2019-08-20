@@ -138,32 +138,18 @@ namespace Scratchpad
 			// Demo FindNumberOfSharedElements method
 			int[] array1 = { 13, 27, 35, 40, 49, 55, 59 };
 			int[] array2 = { 17, 35, 39, 40, 55, 58, 80 };
-			Console.WriteLine($"Number of shared elements: {FindNumberOfSharedElements_BinarySearch(array1, array2)}"); // 3
-			Console.WriteLine($"Number of shared elements: {FindNumberOfSharedElements_HashSet(array1, array2)}"); // 3
+			Console.WriteLine($"Number of shared elements: {FindNumberOfSharedElements_BinarySearchNaive(array1, array2)}");
+			Console.WriteLine($"Number of shared elements: {FindNumberOfSharedElements_HashSet(array1, array2)}");
 		}
 
+
 		/// <summary>
-		/// Given two sorted integer arrays, finds number of elements common to both arrays in O(n log n) time. 
+		/// Given two sorted integer arrays, finds number of elements common to both arrays in O(n) time using a hashset. 
 		/// Assumes the arrays are same length and each has all distinct elements.
 		/// </summary>
 		/// <param name="sortedArray1">First sorted integer array.</param>
 		/// <param name="sortedArray2">Second sorted integer array.</param>
 		/// <returns>Number of elements contained in both arrays.</returns>
-		public static int FindNumberOfSharedElements_BinarySearch(int[] sortedArray1, int[] sortedArray2)
-		{
-			int count = 0;
-
-			foreach (int num in sortedArray1)
-			{
-				if (BinarySearch(sortedArray2, num) != -1)
-				{
-					count++;
-				}
-			}
-
-			return count;
-		}
-
 		public static int FindNumberOfSharedElements_HashSet(int[] sortedArray1, int[] sortedArray2)
 		{
 			int count = 0;
@@ -190,7 +176,29 @@ namespace Scratchpad
 		}
 
 		/// <summary>
-		/// Binary search helper method for FindNumberOfSharedElements.
+		/// Given two sorted integer arrays, finds number of elements common to both arrays in O(n log n) time using binary search. 
+		/// Assumes the arrays are same length and each has all distinct elements.
+		/// </summary>
+		/// <param name="sortedArray1">First sorted integer array.</param>
+		/// <param name="sortedArray2">Second sorted integer array.</param>
+		/// <returns>Number of elements contained in both arrays.</returns>
+		public static int FindNumberOfSharedElements_BinarySearchNaive(int[] sortedArray1, int[] sortedArray2)
+		{
+			int count = 0;
+
+			foreach (int num in sortedArray1)
+			{
+				if (BinarySearch(sortedArray2, num) != -1)
+				{
+					count++;
+				}
+			}
+
+			return count;
+		}
+
+		/// <summary>
+		/// Binary search helper method for FindNumberOfSharedElements_BinarySearch.
 		/// </summary>
 		/// <param name="sortedArray">Sorted array of integers.</param>
 		/// <param name="value">Integer value to search for in array.</param>
