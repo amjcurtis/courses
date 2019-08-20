@@ -37,7 +37,9 @@ namespace BooksApi.Controllers
 		{
 			_bookService.CreateBook(book);
 
-			return CreatedAtRoute("GetBook", new { id = book.Id.ToString() }, book);
+			// Returns HTTP 201 status code (standard response for a POST)
+			// CreatedAtRoute also adds a Location header to response specifying URI of newly created resource
+			return CreatedAtRoute("GetBook", new { id = book.Id.ToString() }, book); 
 		}
 
 		[HttpPut("{id:length(24)}")]
