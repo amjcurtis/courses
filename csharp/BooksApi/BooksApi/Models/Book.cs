@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json; // Allows resolving of JsonProperty attribute reference
 
 namespace BooksApi.Models
 {
@@ -13,6 +14,7 @@ namespace BooksApi.Models
 		public string Id { get; set; }
 
 		[BsonElement("Name")] // Value of "Name" represents the property name in the MongoDB collection
+		[JsonProperty("Name")] // Value of "Name" represents property name in the serialized JSON response
 		public string BookName { get; set; }
 
 		public decimal Price { get; set; }

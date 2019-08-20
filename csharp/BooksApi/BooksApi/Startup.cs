@@ -32,7 +32,9 @@ namespace BooksApi
 			// Per Mongo Client reuse guidelines, MongoClient should be registered in DI with a singleton service lifetime
 			services.AddSingleton<BookService>();
 
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+			services.AddMvc()
+				.AddJsonOptions(options => options.UseMemberCasing()) // Makes property names in serialized JSON response match corresponding property names in the CLR object type
+				.SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 		}
 
 		// This method gets called by the runtime to configure the HTTP request pipeline
