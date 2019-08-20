@@ -138,22 +138,56 @@ namespace Scratchpad
 			// Demo FindNumberOfSharedElements method
 			int[] array1 = { 13, 27, 35, 40, 49, 55, 59 };
 			int[] array2 = { 17, 35, 39, 40, 55, 58, 80 };
-			//Console.WriteLine($"Number of shared elements: {FindNumberOfSharedElements(array1, array2)}");
+			Console.WriteLine($"Number of shared elements: {FindNumberOfSharedElements_BinarySearch(array1, array2)}"); // 3
+			Console.WriteLine($"Number of shared elements: {FindNumberOfSharedElements_HashSet(array1, array2)}"); // 3
 		}
 
 		/// <summary>
-		/// Given two sorted integer arrays, finds number of elements common to both arrays. 
+		/// Given two sorted integer arrays, finds number of elements common to both arrays in O(n log n) time. 
 		/// Assumes the arrays are same length and each has all distinct elements.
 		/// </summary>
 		/// <param name="sortedArray1">First sorted integer array.</param>
 		/// <param name="sortedArray2">Second sorted integer array.</param>
 		/// <returns>Number of elements contained in both arrays.</returns>
-		//public static int FindNumberOfSharedElements(int[] sortedArray1, int[] sortedArray2)
-		//{
-		//	int count = 0;
+		public static int FindNumberOfSharedElements_BinarySearch(int[] sortedArray1, int[] sortedArray2)
+		{
+			int count = 0;
 
+			foreach (int num in sortedArray1)
+			{
+				if (BinarySearch(sortedArray2, num) != -1)
+				{
+					count++;
+				}
+			}
 
-		//}
+			return count;
+		}
+
+		public static int FindNumberOfSharedElements_HashSet(int[] sortedArray1, int[] sortedArray2)
+		{
+			int count = 0;
+
+			HashSet<int> set = new HashSet<int>();
+
+			foreach (int num in sortedArray1)
+			{
+				if (!set.Contains(num))
+				{
+					set.Add(num);
+				}
+			}
+
+			foreach (int num in sortedArray2)
+			{
+				if (set.Contains(num))
+				{
+					count++;
+				}
+			}
+
+			return count;
+		}
 
 		/// <summary>
 		/// Binary search helper method for FindNumberOfSharedElements.
