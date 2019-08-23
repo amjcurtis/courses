@@ -141,7 +141,32 @@ namespace Scratchpad
 			Console.WriteLine($"Number of shared elements (Binary Search Naive): {FindNumberOfSharedElements_BinarySearchNaive(array1, array2)}");
 			Console.WriteLine($"Number of shared elements (Hashset): {FindNumberOfSharedElements_HashSet(array1, array2)}");
 			Console.WriteLine($"Number of shared elements (optimized): {FindNumberOfSharedElements_Optimized(array1, array2)}");
+
+
+			// Demo Sqrt method
+			double x = 2;
+			Console.WriteLine(Sqrt(x));
 		}
+
+
+		/// <summary>
+		/// Given a number x, finds the number z for which z^2 is most nearly x.
+		/// </summary>
+		/// <param name="x">Float.</param>
+		/// <returns>Number for which z^2 is most nearly x.</returns>
+		public static double Sqrt(double x)
+		{
+			double z = 1;
+
+			for (int i = 0; i < 30; i++) // 
+			{
+				z -= (z * z - x) / (2 * z);
+				Console.WriteLine(z);
+			}
+
+			return z;
+		}
+
 
 		/// <summary>
 		/// Given two sorted integer arrays, finds number of elements common to both arrays in O(n) time and O(1) space. 
@@ -198,7 +223,7 @@ namespace Scratchpad
 
 			// Includes duplicate values in sortedArray1 in count
 			// Disregards duplicate values in sortedArray2
-			foreach (int num in sortedArray1) 
+			foreach (int num in sortedArray1)
 			{
 				if (set.Contains(num))
 				{
@@ -264,7 +289,8 @@ namespace Scratchpad
 			}
 
 			return -1;
-		} 
+		}
+
 
 		/// <summary>
 		/// Defangs an IP address that uses dot notation by replacing all '.' characters with "[.]"
