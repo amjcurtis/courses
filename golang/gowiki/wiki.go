@@ -5,16 +5,19 @@ import (
 	"io/ioutil"
 )
 
+// Define data structure for wiki page
 type Page struct {
 	Title string
 	Body  []byte
 }
 
+// Method for persisting page data by saving as text file
 func (p *Page) save() error {
 	filename := p.Title + ".txt"
 	return ioutil.WriteFile(filename, p.Body, 0600)
 }
 
+// Constructs filename from title param, reads file, and returns wiki page
 func loadPage(title string) (*Page, error) {
 	filename := title + ".txt"
 	body, err := ioutil.ReadFile(filename)
