@@ -13,6 +13,9 @@ type Page struct {
 	Body  []byte
 }
 
+// Parse all files into single *Template once on initializing program
+var templates = template.Must(template.ParseFiles("edit.html", "view.html"))
+
 // Method for persisting page data by saving as text file
 func (page *Page) save() error {
 	filename := page.Title + ".txt"
@@ -50,12 +53,7 @@ func editHandler(writer http.ResponseWriter, request *http.Request) {
 }
 
 func renderTemplate(writer http.ResponseWriter, tmpl string, page *Page) {
-	templ, err := template.ParseFiles(tmpl + ".html")
-	if err != nil {
-		http.Error(writer, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	err = templ.Execute(writer, page)
+	err := templates.ExecuteTemplate(writer, tmpl+".html", page)
 	if err != nil {
 		http.Error(writer, err.Error(), http.StatusInternalServerError)
 	}
