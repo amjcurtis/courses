@@ -31,7 +31,12 @@ func loadPage(title string) (*Page, error) {
 
 func viewHandler(writer http.ResponseWriter, request *http.Request) {
 	title := request.URL.Path[len("/view/"):]
-	page, _ := loadPage(title)
+	page, err := loadPage(title)
+	if err != nil {
+		// Redirect adds 302 StatusFound code and a Location header to http response
+		http.Redirect(writer, request, "/edit/"+title, http.StatusFound)
+		return
+	}
 	renderTemplate(writer, "view", page)
 }
 
@@ -45,13 +50,28 @@ func editHandler(writer http.ResponseWriter, request *http.Request) {
 }
 
 func renderTemplate(writer http.ResponseWriter, tmpl string, page *Page) {
-	templ, _ := template.ParseFiles(tmpl + ".html")
-	templ.Execute(writer, page)
+	templ, err := template.ParseFiles(tmpl + ".html")
+	if err != nil {
+		http.Error(writer, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	err = templ.Execute(writer, page)
+	if err != nil {
+		http.Error(writer, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func saveHandler(writer http.ResponseWriter, request *http.Request) {
+	title := request.URL.Path[len("/save/"):]
+	body := request.FormValue("body")
+	page := &Page{Title: title, Body: []byte(body)}
+	page.save()
+	http.Redirect(writer, request, "/view/"+title, http.StatusFound)
 }
 
 func main() {
 	http.HandleFunc("/view/", viewHandler)
 	http.HandleFunc("/edit/", editHandler)
-	// http.HandleFunc("/save/", saveHandler)
+	http.HandleFunc("/save/", saveHandler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
