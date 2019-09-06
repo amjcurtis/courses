@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
+	"net/http"
 )
 
 // Define data structure for wiki page
@@ -12,9 +14,9 @@ type Page struct {
 }
 
 // Method for persisting page data by saving as text file
-func (p *Page) save() error {
-	filename := p.Title + ".txt"
-	return ioutil.WriteFile(filename, p.Body, 0600)
+func (page *Page) save() error {
+	filename := page.Title + ".txt"
+	return ioutil.WriteFile(filename, page.Body, 0600)
 }
 
 // Constructs filename from title param, reads file, and returns wiki page
@@ -27,9 +29,13 @@ func loadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil
 }
 
+func viewHandler(writer http.ResponseWriter, request *http.Request) {
+	title := request.URL.Path[len("/view/"):]
+	page, _ := loadPage(title)
+	fmt.Fprintf(writer, "<h1>%s</h1><div>%s</div>", page.Title, page.Body)
+}
+
 func main() {
-	p1 := &Page{Title: "TestPage", Body: []byte("This is a sample Page.")}
-	p1.save()
-	p2, _ := loadPage("TestPage")
-	fmt.Println(string(p2.Body))
+	http.HandleFunc("/view/", viewHandler)
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
