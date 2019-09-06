@@ -65,7 +65,11 @@ func saveHandler(writer http.ResponseWriter, request *http.Request) {
 	title := request.URL.Path[len("/save/"):]
 	body := request.FormValue("body")
 	page := &Page{Title: title, Body: []byte(body)}
-	page.save()
+	err := page.save()
+	if err != nil {
+		http.Error(writer, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	http.Redirect(writer, request, "/view/"+title, http.StatusFound)
 }
 
