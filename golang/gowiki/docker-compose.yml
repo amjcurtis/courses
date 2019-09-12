@@ -1,27 +1,22 @@
 version: "3"
+
 services:
 
-  server1:
-    #TODO Comment out in favor of build context below
-    # image: kjertis/get-started:part2
-    #TODO Add the build context
-    context: 
-    deploy:
-      replicas: 5
-      resources:
-        limits:
-          cpus: "0.1"
-          memory: 50M
-      restart_policy:
-        condition: on-failure
-    ports:
-      - "4000:80"
+  wikiserver:
+    build: ./server1  # Add the build context
+    # image: serv1
     networks:
       - webnet
+    expose: 
+      - 80
   
   server2:
-    #TODO Add the build context
-    context:
+    build: ./server2
+    # image: serv2
+    networks:
+      - webnet
+    ports:  # Short syntax
+      - "8081:8081"
 
 networks:
   webnet:
