@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+
+  wikiserver:
+    build: ./server1  # Add the build context
+    # image: serv1
+    networks:
+      - webnet
+    expose: 
+      - 8080
+  
+  server2:
+    build: ./server2
+    # image: serv2
+    networks:
+      - webnet
+    ports:  # Short syntax
+      - "8081:8081"
+
+networks:
+  webnet:
