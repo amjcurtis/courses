@@ -1,4 +1,5 @@
-FROM ubuntu AS serv2
+FROM ubuntu 
+#AS serv2
 
 COPY server2 ./
 

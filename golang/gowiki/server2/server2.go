@@ -21,7 +21,7 @@ func getPage(url string) []byte {
 
 func main() {
 	http.HandleFunc("/ping/", func(writer http.ResponseWriter, _ *http.Request) {
-		body := getPage("http://wikiserver:80/view/test")
+		body := getPage("http://wikiserver:8080/view/test")
 		_, err := writer.Write(body)
 		if err != nil {
 			log.Fatal(err)
