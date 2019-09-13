@@ -3,8 +3,7 @@ version: "3"
 services:
 
   wikiserver:
-    build: ./server1  # Add the build context
-    # image: serv1
+    build: ./server1
     networks:
       - webnet
     expose: 
@@ -12,7 +11,6 @@ services:
   
   server2:
     build: ./server2
-    # image: serv2
     networks:
       - webnet
     ports:  # Short syntax
